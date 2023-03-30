@@ -26,7 +26,7 @@ public class UserDataController {
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<UserDataResponse> addUser(@RequestBody UserAddRequest userAddRequest) {
         DataResponse<UserDataResponse> dataResponse = new DataResponse<>();
-
+        System.out.println("hello");
         dataResponse.setData(userDataService.addUser(userAddRequest));
         dataResponse.setStatus(Response.getOkResponse(ResponseConstant.SAVED_SUCCESSFULLY));
         return dataResponse;
@@ -61,8 +61,6 @@ public class UserDataController {
         listResponse.setStatus(Response.getOkResponse(ResponseConstant.OK));
         return listResponse;
     }
-
-
 
     @RequestMapping(name = "deleteUser", value = "/delete/user", method = RequestMethod.POST)
     @Access(levels = Role.ANONYMOUS)
