@@ -64,13 +64,10 @@ public class UserDataController {
         return listResponse;
     }
 
-<<<<<<< HEAD
-    @RequestMapping(name = "deleteUser", value = "/delete/user", method = RequestMethod.POST)
-=======
+
 
 
     @DeleteMapping(name = "deleteUser", value ="/delete/user/{id}")
->>>>>>> gitlab-changes
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<Object> deleteUser(@PathVariable String id) {
         DataResponse<Object> dataResponse = new DataResponse<>();
