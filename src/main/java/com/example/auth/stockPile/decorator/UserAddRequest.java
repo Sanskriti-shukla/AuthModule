@@ -21,6 +21,4 @@ public class UserAddRequest {
     String contact;
 
 
-
-
 }

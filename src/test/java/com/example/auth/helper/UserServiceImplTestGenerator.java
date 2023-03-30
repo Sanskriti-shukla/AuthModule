@@ -1,13 +1,11 @@
 package com.example.auth.helper;
 
-import com.example.auth.commons.decorator.ExcelUtils;
 import com.example.auth.commons.enums.Role;
 import com.example.auth.decorator.UserExcelResponse;
 import com.example.auth.decorator.user.*;
 import com.example.auth.model.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -20,8 +18,8 @@ public class UserServiceImplTestGenerator {
         return modelMapper;
     }
 
-    public static UserAddRequest getMockUserAddRequest() {
-        return UserAddRequest.builder()
+    public static UsersAddRequest getMockUserAddRequest() {
+        return UsersAddRequest.builder()
                 .firstName("sans")
                 .middleName("km")
                 .lastName("shukla")

@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse addUser(UserAddRequest userAddRequest) {
+    public UserResponse addUser(UsersAddRequest userAddRequest) {
 
         User user = modelMapper.map(userAddRequest, User.class);
 
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(String id, UserAddRequest userAddRequest) {
+    public void updateUser(String id, UsersAddRequest userAddRequest) {
 
         User user1 = getUserModel(id);
 
@@ -351,7 +351,7 @@ public class UserServiceImpl implements UserService {
 
 
 
-    public void update(String id, UserAddRequest userAddRequest) {
+    public void update(String id, UsersAddRequest userAddRequest) {
         User user = getUserModel(id);
         if (userAddRequest.getFirstName() != null) {
             user.setFirstName(userAddRequest.getFirstName());

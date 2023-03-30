@@ -7,9 +7,8 @@ import com.example.auth.commons.model.AdminConfiguration;
 import com.example.auth.commons.service.AdminConfigurationService;
 import com.example.auth.commons.decorator.DataResponse;
 import com.example.auth.commons.decorator.Response;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.lang.reflect.InvocationTargetException;
 
 @RestController
@@ -21,7 +20,8 @@ public class AdminController {
         this.adminConfigurationService = adminConfigurationService;
     }
 
-    @RequestMapping(name = "addConfiguration", value = "/add", method = RequestMethod.POST)
+//    @RequestMapping(name = "addConfiguration", value = "/add", method = RequestMethod.POST)
+    @PostMapping(name = "addConfiguration", value = "/add")
     @Access(levels = Role.ADMIN)
     public DataResponse<AdminResponse> addConfiguration()  {
         DataResponse<AdminResponse> dataResponse = new DataResponse<>();
@@ -30,7 +30,8 @@ public class AdminController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "getConfigurationDetails", value = "/getDetails", method = RequestMethod.GET)
+//    @RequestMapping(name = "getConfigurationDetails", value = "/getDetails", method = RequestMethod.GET)
+    @GetMapping(name = "getConfigurationDetails", value = "/getDetails")
     @Access(levels = Role.ADMIN)
     public DataResponse<AdminConfiguration> getConfigurationDetails()  {
         DataResponse<AdminConfiguration> dataResponse = new DataResponse<>();

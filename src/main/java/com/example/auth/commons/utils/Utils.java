@@ -17,7 +17,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.activation.*;
 import javax.mail.*;
@@ -74,8 +74,6 @@ public class Utils {
 
         String actualString = new String(pass);
 
-        System.out.println(actualString);
-
         return actualString;
     }
 
@@ -97,8 +95,21 @@ public class Utils {
         for (Method method : allMethods) {
             if (Modifier.isPublic(method.getModifiers())) {
                 Access a = method.getAnnotation(Access.class);
-                RequestMapping rm = method.getAnnotation(RequestMapping.class);
-
+//                RequestMapping rm = method.getAnnotation(RequestMapping.class);
+                String restApiName = null;
+                if (method.isAnnotationPresent(GetMapping.class)) {
+                    GetMapping getMapping = method.getAnnotation(GetMapping.class);
+                    restApiName = getMapping.name();
+                }else if (method.isAnnotationPresent(PostMapping.class)) {
+                    PostMapping postMapping = method.getAnnotation(PostMapping.class);
+                    restApiName = postMapping.name();
+                } else if (method.isAnnotationPresent(PutMapping.class)) {
+                    PutMapping putMapping = method.getAnnotation(PutMapping.class);
+                    restApiName = putMapping.name();
+                } else if (method.isAnnotationPresent(DeleteMapping.class)) {
+                    DeleteMapping deleteMapping = method.getAnnotation(DeleteMapping.class);
+                    restApiName = deleteMapping.name();
+                }
                 if (a != null) {
                     List<String> authList = new ArrayList<>(Arrays.asList(a.levels()))
                             .stream()
@@ -106,7 +117,7 @@ public class Utils {
                             .collect(Collectors.toList());
 
                     RestAPI api = new RestAPI();
-                    api.setName(rm.name());
+                    api.setName(restApiName);
                     api.setRoles(authList);
                     apis.add(api);
                 }

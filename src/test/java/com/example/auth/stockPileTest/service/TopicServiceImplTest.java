@@ -19,7 +19,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-public class TopicServiceImplTest {
+ class TopicServiceImplTest {
     private final static String id= "id";
     private final static String userId="id";
     private final static String stockId="id";
@@ -43,7 +43,6 @@ public class TopicServiceImplTest {
 
     void testAddTopic(){
         Date date= new Date();
-
         var stock = TopicServiceImplTestGenerator.mockStock();
 
          var userData = TopicServiceImplTestGenerator.mockUserData();
@@ -119,7 +118,6 @@ public class TopicServiceImplTest {
     @Test
     void testDeleteTopicById(){
         Date date= new Date();
-
         var topic = TopicServiceImplTestGenerator.mockTopic(date);
 
         when(topicRepository.getTopicByIdAndSoftDeleteIsFalse(topicId)).thenReturn(java.util.Optional.ofNullable(topic));
@@ -127,9 +125,6 @@ public class TopicServiceImplTest {
          topicService.deleteTopicById(topicId);
 
          verify(topicRepository,times(1)).getTopicByIdAndSoftDeleteIsFalse(topicId);
-
     }
-
-
 
 }
