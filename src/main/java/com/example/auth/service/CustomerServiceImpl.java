@@ -395,11 +395,8 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findByIdAndSoftDeleteIsFalse(id).orElseThrow(() -> new NotFoundException(MessageConstant.USER_NOT_FOUND));
 
     }
-
     public Notification getUserId(String userId) {
         return notificationRepository.findByUserId(userId);
     }
-
-
 }
 

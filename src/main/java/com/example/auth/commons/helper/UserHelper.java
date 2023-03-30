@@ -1,18 +1,14 @@
 package com.example.auth.commons.helper;
 
-import com.amazonaws.services.apigateway.model.Model;
 import com.example.auth.commons.advice.NullAwareBeanUtilsBean;
-import com.example.auth.decorator.user.UserAddRequest;
 import com.example.auth.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
 

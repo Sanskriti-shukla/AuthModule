@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
 @Builder
-public class UserAddRequest {
+public class UsersAddRequest {
     @NotNull
     String firstName;
 

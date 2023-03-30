@@ -32,7 +32,8 @@ public class StockController {
         this.generalHelper = generalHelper;
     }
 
-    @RequestMapping(name = "addStock", value = "/add", method = RequestMethod.POST)
+//    @RequestMapping(name = "addStock", value = "/add", method = RequestMethod.POST)
+    @PostMapping(name = "addStock" , value = "/add/stock")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<StockResponse> addStock(@RequestBody StockAddRequest stockAddRequest) {
         DataResponse<StockResponse> dataResponse = new DataResponse<>();
@@ -41,7 +42,8 @@ public class StockController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "updateStock", value = "/update/stock", method = RequestMethod.POST)
+//    @RequestMapping(name = "updateStock", value = "/update/stock", method = RequestMethod.POST)
+    @PutMapping(name = "updateStock" , value = "/update/stock")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<Object> updateStock(@PathVariable String id, @RequestBody StockAddRequest stockAddRequest) throws NoSuchFieldException, IllegalAccessException {
         DataResponse<Object> dataResponse = new DataResponse<>();
@@ -50,7 +52,8 @@ public class StockController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "getStockById", value = "/{id}", method = RequestMethod.GET)
+//    @RequestMapping(name = "getStockById", value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(name = "getStockById" , value = "/stock/{id}")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<StockResponse> getStockById(@PathVariable String id) {
         DataResponse<StockResponse> dataResponse = new DataResponse<>();
@@ -60,7 +63,8 @@ public class StockController {
     }
 
 
-    @RequestMapping(name = "getStockBySymbol", value = "/symbol", method = RequestMethod.GET)
+//    @RequestMapping(name = "getStockBySymbol", value = "/symbol", method = RequestMethod.GET)
+    @GetMapping(name = "getStockBySymbol" , value = "/symbol")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<StockResponse> getStockBySymbol(@RequestParam String symbol) {
         DataResponse<StockResponse> dataResponse = new DataResponse<>();
@@ -69,7 +73,8 @@ public class StockController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "getAllStock", value = "/get/all/stock", method = RequestMethod.GET)
+//    @RequestMapping(name = "getAllStock", value = "/get/all/stock", method = RequestMethod.GET)
+    @GetMapping(name = "getAllStock" , value = "/get/all/stock")
     @Access(levels = Role.ANONYMOUS)
     public ListResponse<StockResponse> getAllStock() {
         ListResponse<StockResponse> listResponse = new ListResponse<>();
@@ -79,7 +84,8 @@ public class StockController {
     }
 
 
-    @RequestMapping(name = "deleteStockById", value = "/{id}", method = RequestMethod.POST)
+//    @RequestMapping(name = "deleteStockById", value = "/{id}", method = RequestMethod.POST)
+    @DeleteMapping(name = "deleteStockById", value = "/{id}")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<Object> deleteStockById(@PathVariable String id) {
         DataResponse<Object> dataResponse = new DataResponse<>();
@@ -88,7 +94,8 @@ public class StockController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "getAllStockByPagination", value = "get/all/pagination", method = RequestMethod.POST)
+//    @RequestMapping(name = "getAllStockByPagination", value = "get/all/pagination", method = RequestMethod.POST)
+    @PostMapping(name = "getAllStockByPagination" , value = "/get/all/pagination")
     @Access(levels = Role.ANONYMOUS)
     public PageResponse<StockResponse> getAllStockByPagination(@RequestBody FilterSortRequest<StockFilter, StockSortBy> filterSortRequest) {
         PageResponse<StockResponse> pageResponse = new PageResponse<>();
@@ -100,7 +107,8 @@ public class StockController {
 
     }
 
-    @RequestMapping(name = "subscribeUnsubscribeStock", value = "/subscription/unsubscribe", method = RequestMethod.GET)
+//    @RequestMapping(name = "subscribeUnsubscribeStock", value = "/subscription/unsubscribe", method = RequestMethod.GET)
+    @GetMapping(name = "subscribeUnsubscribeStock" , value = "/subscription/unsubscribe")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<String> getStockSubscription(@RequestParam String symbol, @RequestParam String userId, @RequestParam Subscribe subscribe) {
         DataResponse<String> dataResponse = new DataResponse<>();
@@ -115,7 +123,8 @@ public class StockController {
 
     }
 
-    @RequestMapping(name = "allSubscribers", value = "/all/subscribers", method = RequestMethod.POST)
+//    @RequestMapping(name = "allSubscribers", value = "/all/subscribers", method = RequestMethod.POST)
+    @PostMapping(name = "allSubscribers" ,value = "/all/subscribers")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<Map<String, List<Stock>>> allSubscribers() {
         DataResponse<Map<String, List<Stock>>> dataResponse = new DataResponse<>();
@@ -124,7 +133,8 @@ public class StockController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "subscribedStocksByUserId", value = "subscribedStocks/byUserId", method = RequestMethod.POST)
+//    @RequestMapping(name = "subscribedStocksByUserId", value = "subscribedStocks/byUserId", method = RequestMethod.POST)
+    @PostMapping(name = "subscribedStocksByUserId" ,  value = "/subscribedStocks/byUserId")
     @Access(levels = Role.ANONYMOUS)
     public ListResponse<StockSubscribed> subscribedStocksByUserId(String userId) {
         ListResponse<StockSubscribed> listResponse = new ListResponse<>();

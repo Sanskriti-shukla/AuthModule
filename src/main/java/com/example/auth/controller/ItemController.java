@@ -27,7 +27,7 @@ public class ItemController {
         this.generalHelper = generalHelper;
     }
 
-    @RequestMapping(name = "addItem", value = "/add", method = RequestMethod.POST)
+    @PostMapping(name = "addItem" , value = "/add")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<ItemResponse> addItem(@RequestParam(required = false) String categoryId, @RequestBody ItemAddRequest itemAddRequest) {
         DataResponse<ItemResponse> dataResponse = new DataResponse<>();
@@ -36,7 +36,7 @@ public class ItemController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "updateItem", value = "/update", method = RequestMethod.POST)
+    @PutMapping(name = "updateItem" , value = "/update")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<ItemResponse> updateItem(@RequestParam String id, @RequestBody ItemAddRequest itemAddRequest) {
         DataResponse<ItemResponse> dataResponse = new DataResponse<>();
@@ -46,7 +46,7 @@ public class ItemController {
     }
 
 
-    @RequestMapping(name = "getItemById", value = "/get/{id}", method = RequestMethod.GET)
+    @GetMapping(name = "getItemById" , value = "item/{id}")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<ItemResponse> getItemById(@RequestParam String id) {
         DataResponse<ItemResponse> dataResponse = new DataResponse<>();
@@ -56,7 +56,7 @@ public class ItemController {
     }
 
 
-    @RequestMapping(name = "getAllItems", value = "/getAll", method = RequestMethod.GET)
+    @GetMapping(name = "getAllItems" , value = "/getAll")
     @Access(levels = Role.ANONYMOUS)
     public ListResponse<ItemResponse> geAllItems() {
         ListResponse<ItemResponse> listResponse = new ListResponse<>();
@@ -65,7 +65,7 @@ public class ItemController {
         return listResponse;
     }
 
-    @RequestMapping(name = "deleteItemById", value = "/delete/{d}", method = RequestMethod.DELETE)
+    @DeleteMapping(name = "deleteItemById" , value = "/delete/{d}")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<Object> deleteItemById(@RequestParam String id) {
         DataResponse<Object> dataResponse = new DataResponse<>();
@@ -74,7 +74,8 @@ public class ItemController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "getAllItemsByPagination", value = "get/all/pagination", method = RequestMethod.POST)
+
+    @PostMapping(name = "getAllItemsByPagination" , value = "/get/all/pagination")
     @Access(levels = Role.ANONYMOUS)
     public PageResponse<ItemResponse> getAllItemsByPagination(@RequestBody FilterSortRequest<ItemFilter, ItemSortBy> filterSortRequest) {
         PageResponse<ItemResponse> pageResponse = new PageResponse<>();
@@ -84,7 +85,8 @@ public class ItemController {
         return pageResponse;
     }
 
-    @RequestMapping(name = "getItemByAggregation", value = "/lookup", method = RequestMethod.POST)
+
+    @PostMapping(name = "getItemByAggregation"  ,value = "/item/aggregation")
     @Access(levels = Role.ANONYMOUS)
     public ListResponse<ItemAggregationResponse> getItemByAggergation() {
         ListResponse<ItemAggregationResponse> listResponse = new ListResponse<>();

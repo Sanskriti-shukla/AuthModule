@@ -28,7 +28,8 @@ public class CategoryController {
         this.generalHelper = generalHelper;
     }
 
-    @RequestMapping(name = "addCategory", value = "/add", method = RequestMethod.POST)
+
+    @PostMapping(name = "addCategory" , value = "/add/category")
     @Access(levels = Role.ADMIN)
     public DataResponse<CategoryResponse> addCategory(@RequestBody CategoryAddRequest categoryAddRequest) {
         DataResponse<CategoryResponse> dataResponse = new DataResponse<>();
@@ -37,7 +38,8 @@ public class CategoryController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "updateCategory", value = "/update", method = RequestMethod.POST)
+
+    @PutMapping(name = "updateCategory"  , value = "/update/category")
     @Access (levels = Role.ADMIN)
     public DataResponse<CategoryResponse> updateCategory(@RequestParam String id, @RequestBody CategoryAddRequest categoryAddRequest) {
         DataResponse<CategoryResponse> dataResponse = new DataResponse<>();
@@ -47,7 +49,8 @@ public class CategoryController {
     }
 
 
-    @RequestMapping(name = "getCategoryById", value = "/{id}", method = RequestMethod.GET)
+
+    @GetMapping(name = "getCategoryById" , value = "/category/{id}")
     @Access (levels = Role.ADMIN)
     public DataResponse<CategoryResponse> getCategoryById(@PathVariable String id) {
         DataResponse<CategoryResponse> dataResponse = new DataResponse<>();
@@ -56,7 +59,7 @@ public class CategoryController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "getAllCategory", value = "/getAllCategroy", method = RequestMethod.GET)
+    @GetMapping(name = "getAllCategory" , value = "/getAllCategroy")
     @Access (levels = Role.ADMIN)
     public ListResponse<CategoryResponse> getAllCategory() {
         ListResponse<CategoryResponse> listResponse = new ListResponse<>();
@@ -66,7 +69,8 @@ public class CategoryController {
         return listResponse;
     }
 
-    @RequestMapping(name = "deleteCategory", value = "delete/{id}", method = RequestMethod.DELETE)
+
+    @DeleteMapping(name = "deleteCategory"  ,value = "/delete/{id}")
     @Access (levels = Role.ADMIN)
     public DataResponse<Object> deleteCategory(@PathVariable String id) {
         DataResponse<Object> dataResponse = new DataResponse<>();
@@ -75,7 +79,8 @@ public class CategoryController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "getAllCategoryByPagination", value = "get/all/pagination", method = RequestMethod.POST)
+
+    @PostMapping(name = "getAllCategoryByPagination" , value = "/get/all/pagination")
     @Access (levels = Role.ADMIN)
     public PageResponse<CategoryResponse> getAllCategoryByPagination(@RequestBody FilterSortRequest<CategoryFilter, CategorySortBy> filterSortRequest) {
         PageResponse<CategoryResponse> pageResponse = new PageResponse<>();
@@ -84,7 +89,5 @@ public class CategoryController {
         pageResponse.setStatus(Response.getOkResponse());
         return pageResponse;
     }
-
-
 
 }
