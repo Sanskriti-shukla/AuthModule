@@ -75,7 +75,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostResponse getPostById(String id) {
         Post post = getById(id);
-       return modelMapper.map(post, PostResponse.class);
+       PostResponse postResponse=  modelMapper.map(post, PostResponse.class);
+        UserData userData = userDataService.userById(post.getPostBy());
+        postResponse.setPostBy(userData);
+        return postResponse;
     }
 
     @Override
@@ -84,6 +87,8 @@ public class PostServiceImpl implements PostService {
         List<PostResponse> postResponses = new ArrayList<>();
         posts.forEach(post -> {
             PostResponse postResponse = modelMapper.map(post, PostResponse.class);
+            UserData userData = userDataService.userById(post.getPostBy());
+            postResponse.setPostBy(userData);
             postResponses.add(postResponse);
         });
         return postResponses;

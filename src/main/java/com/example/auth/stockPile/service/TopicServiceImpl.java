@@ -111,6 +111,8 @@ public class TopicServiceImpl implements TopicService {
     public TopicResponse getTopicById(String id) {
         Topic topic = topicById(id);
         TopicResponse topicResponse = modelMapper.map(topic, TopicResponse.class);
+        UserData userData = userDataService.userById(topic.getCreatedBy());
+        topicResponse.setCreatedBy(userData);
         return topicResponse;
     }
 
@@ -123,6 +125,8 @@ public class TopicServiceImpl implements TopicService {
         List<TopicResponse> list = new ArrayList<>();
         topics.forEach(topic -> {
             TopicResponse topicResponse = modelMapper.map(topic, TopicResponse.class);
+            UserData userData = userDataService.userById(topic.getCreatedBy());
+            topicResponse.setCreatedBy(userData);
             list.add(topicResponse);
         });
         return list;

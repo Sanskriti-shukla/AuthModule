@@ -87,7 +87,6 @@ public class CommentServiceImpl implements CommentService {
             CommentResponse commentResponse = modelMapper.map(comment, CommentResponse.class);
             commentResponses.add(commentResponse);
         });
-
         return commentResponses;
     }
 

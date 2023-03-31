@@ -82,8 +82,8 @@ public class CustomerServiceImpl implements CustomerService {
         newCustomer.setDate(new Date());
         sendMail(newCustomer);
         customerRepository.save(newCustomer);
-        CustomerResponse userResponse = modelMapper.map(newCustomer, CustomerResponse.class);
-        return userResponse;
+     return modelMapper.map(newCustomer, CustomerResponse.class);
+
     }
 
     private void updatePassword(Customer customer) {
@@ -150,8 +150,8 @@ public class CustomerServiceImpl implements CustomerService {
     public String generateOtp() {
         Random rnd = new Random();
         int number = rnd.nextInt(999999);
-        String otp = String.format("%06d", number);
-        return otp;
+        return String.format("%06d", number);
+
     }
 
 
@@ -163,8 +163,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResponse getCustomerById(String id) {
         Customer customer = getById(id);
-        CustomerResponse customerResponse = modelMapper.map(customer, CustomerResponse.class);
-        return customerResponse;
+        return  modelMapper.map(customer, CustomerResponse.class);
     }
 
     @Override
@@ -261,7 +260,6 @@ public class CustomerServiceImpl implements CustomerService {
 
         String id = jwtTokenUtil.getCustomerIdFromToken(token);
         boolean exist = customerRepository.existsById(id);
-
         if (exist) {
             return id;
         } else {
