@@ -69,40 +69,18 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 
-//    @Override
-//    public CustomerResponse addCustomer(CustomerAddRequest customerAddRequest, Role role) {
-//        AdminConfiguration adminConfiguration = adminConfigurationService.getConfiguration();
-//        Customer signUpUser1 = modelMapper.map(customerAddRequest, Customer.class);
-//        CustomerResponse userResponse1 = modelMapper.map(customerAddRequest, CustomerResponse.class);
-//        if (signUpUser1.getPassword() != null) {
-//            String password = password(signUpUser1.getPassword());
-//            signUpUser1.setPassword(password);
-//            userResponse1.setPassword(password);
-//        }
-//        checkValidation(customerAddRequest);
-//        signUpUser1.setRole(role);
-//        userResponse1.setRole(role);
-//        signUpUser1.setDate(new Date());
-//        String otp = generateOtp();
-//        signUpUser1.setOtp(otp);
-////        sendMail();
-//        customerRepository.save(signUpUser1);
-//        return userResponse1;
-//    }
-
-
     @Override
     public CustomerResponse addCustomer(CustomerAddRequest customerAddRequest, Role role, ServiceType serviceType) {
         checkValidation(customerAddRequest);
         if (!serviceType.name().equals("NORMAL")) {
             return null;
         }
-        AdminConfiguration adminConfiguration = adminConfigurationService.getConfiguration();
+        adminConfigurationService.getConfiguration();
         Customer newCustomer = modelMapper.map(customerAddRequest, Customer.class);
         updatePassword(newCustomer);
         newCustomer.setRole(role);
         newCustomer.setDate(new Date());
-        newCustomer.setOtp(generateOtp());
+        sendMail(newCustomer);
         customerRepository.save(newCustomer);
         CustomerResponse userResponse = modelMapper.map(newCustomer, CustomerResponse.class);
         return userResponse;
@@ -125,7 +103,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResponse login(CustomerLoginAddRequest customerLoginAddRequest) {
 
-        AdminConfiguration adminConfiguration = adminConfigurationService.getConfiguration();
         Customer customer = getUserByEmail(customerLoginAddRequest.getEmail());
         String userPassworod = customer.getPassword();
         CustomerResponse customerResponse = modelMapper.map(customer, CustomerResponse.class);
@@ -140,53 +117,33 @@ public class CustomerServiceImpl implements CustomerService {
         } else {
             throw new InvalidRequestException(MessageConstant.INCORRECT_PASSWORD);
         }
-        customerResponse.setRole(customer.getRole());
-        customerResponse.setId(customer.getId());
-        JWTUser jwtUser = new JWTUser(customerLoginAddRequest.getEmail(), Collections.singletonList(customerResponse.getRole().toString()));
-        String token = jwtTokenUtil.generateToken(jwtUser);
-        try {
-            nullAwareBeanUtilsBean.copyProperties(customerResponse, customer);
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            log.error("error occured when mapping model to dto : {}", e.getMessage(), e);
-        }
-
-        customerResponse.setToken(token);
         customer.setDate(new Date());
         customer.setOtpSendtime(new Date());
         customer.setLoginTime(new Date());
-        String otp = generateOtp();
-        customer.setOtp(otp);
         customer.setLogin(true);
-        EmailModel emailModel = new EmailModel();
-        emailModel.setMessage(otp);
-        TemplateParser<EmailModel> templateParser = new TemplateParser<>();
-        String url = templateParser.compileTemplate(FileLoader.loadHtmlTemplateOrReturnNull("send_otp"), emailModel);
-        emailModel.setMessage(url);
-        emailModel.setTo("sanskrityshukla4@gmail.com");
-        emailModel.setCc(adminConfiguration.getTechAdmins());
-        emailModel.setSubject("OTP Verification");
-        utils.sendEmailNow(emailModel);
-        customerResponse.setOtp(customer.getOtp());
-        customerResponse.setSocialVerify(customer.getSocialVerify());
-        customerResponse.setImageUrl(customer.getImageUrl());
+        sendMail(customer);
+        JWTUser jwtUser = new JWTUser(customerLoginAddRequest.getEmail(), Collections.singletonList(customerResponse.getRole().toString()));
+        String token = jwtTokenUtil.generateToken(jwtUser);
+        customerResponse.setToken(token);
         customerRepository.save(customer);
         return customerResponse;
 
     }
-//    public void sendMail() {
-//        AdminConfiguration adminConfiguration = adminConfigurationService.getConfiguration();
-//        String otp = generateOtp();
-//        EmailModel emailModel = new EmailModel();
-//        emailModel.setMessage(otp);
-//        TemplateParser<EmailModel> templateParser = new TemplateParser<>();
-//        String url = templateParser.compileTemplate(FileLoader.loadHtmlTemplateOrReturnNull("send_otp"), emailModel);
-//        emailModel.setMessage(url);
-//        emailModel.setTo("nilusroy0@gmail.com");
-//        emailModel.setCc(adminConfiguration.getTechAdmins());
-//        emailModel.setSubject("OTP Verification");
-//        utils.sendEmailNow(emailModel);
-//
-//    }
+    public void sendMail(Customer customer) {
+        AdminConfiguration adminConfiguration = adminConfigurationService.getConfiguration();
+        String otp = generateOtp();
+        EmailModel emailModel = new EmailModel();
+        emailModel.setMessage(otp);
+        customer.setOtp(otp);
+        TemplateParser<EmailModel> templateParser = new TemplateParser<>();
+        String url = templateParser.compileTemplate(FileLoader.loadHtmlTemplateOrReturnNull("send_otp"), emailModel);
+        emailModel.setMessage(url);
+        emailModel.setTo("nilusroy0@gmail.com");
+        emailModel.setCc(adminConfiguration.getTechAdmins());
+        emailModel.setSubject("OTP Verification");
+        utils.sendEmailNow(emailModel);
+
+    }
 
 
     @VisibleForTesting
