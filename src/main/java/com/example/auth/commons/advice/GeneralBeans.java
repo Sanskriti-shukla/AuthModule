@@ -12,8 +12,7 @@ import com.example.auth.stockPile.model.Notification;
 import com.example.auth.stockPile.model.Reaction;
 import com.example.auth.stockPile.model.Subscriber;
 import com.example.auth.stockPile.model.UserData;
-//import com.example.auth.stockPile.service.FireBaseMessagingService;
-//import com.example.auth.stockPile.service.FireBaseMessagingServiceImpl;
+
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -24,11 +23,6 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 @Configuration
     public class GeneralBeans {
-//        @Value("${trs.defaults.prefetchCount}")
-//        String prefetchCount;
-//
-//        @Value("${trs.defaults.concurrentConsumers}")
-//        String concurrentConsumers;
 
 
 

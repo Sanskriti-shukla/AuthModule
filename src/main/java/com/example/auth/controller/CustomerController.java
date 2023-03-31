@@ -13,6 +13,7 @@ import com.example.auth.decorator.pagination.PageResponse;
 import com.example.auth.model.Customer;
 import com.example.auth.service.CustomerService;
 import com.example.auth.stockPile.decorator.NotificationAddRequest;
+import com.example.auth.stockPile.model.ServiceType;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,9 +34,9 @@ public class CustomerController {
 //    @RequestMapping(name = "addCustomer", value = "/addCustomer", method = RequestMethod.POST)
     @PostMapping(name = "addCustomer" , value = "/add/customer")
     @Access(levels = Role.ANONYMOUS)
-    public DataResponse<CustomerResponse> addCustomer(@RequestBody CustomerAddRequest customerAddRequest, @RequestParam Role role) {
+    public DataResponse<CustomerResponse> addCustomer(@RequestBody CustomerAddRequest customerAddRequest, @RequestParam Role role , @RequestParam ServiceType serviceType) {
         DataResponse<CustomerResponse> dataResponse = new DataResponse<>();
-        dataResponse.setData(customerService.addCustomer(customerAddRequest, role));
+        dataResponse.setData(customerService.addCustomer(customerAddRequest, role,serviceType ));
         dataResponse.setStatus(Response.getOkResponse());
         return dataResponse;
 

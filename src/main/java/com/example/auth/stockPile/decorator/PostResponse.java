@@ -32,8 +32,6 @@ public class PostResponse {
 
     int comments;
 
-
-
     Map<ReactionType,Integer> reaction;
 
 }

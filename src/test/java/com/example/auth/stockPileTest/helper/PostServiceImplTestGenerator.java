@@ -84,7 +84,7 @@ public class PostServiceImplTestGenerator {
                 .id(topicId)
                 .title("hello")
                 .description("hello")
-                .createdBy(mockUserData())
+                .createdBy(mockUserData().getId())
                 .createdOn(date)
                 .stockId(stockId)
                 .stockSymbol("AAPL")
@@ -97,7 +97,7 @@ public class PostServiceImplTestGenerator {
                 .id(postId)
                 .stockInfo(stockId)
                 .reaction(reactions)
-                .postBy(mockUserData())
+                .postBy(mockUserData().getId())
                 .createdOn(date)
                 .topicInfo(topicId)
                 .build();
@@ -180,7 +180,7 @@ public class PostServiceImplTestGenerator {
     public static List<Post> mockAllPost(Date date){
         return List.of(Post.builder()
                 .stockInfo(stockId)
-                .postBy(mockUserData())
+                .postBy(mockUserData().getId())
                 .createdOn(date)
                 .topicInfo(topicId)
                 .build());

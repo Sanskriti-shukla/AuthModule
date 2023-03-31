@@ -57,7 +57,7 @@ public class TopicServiceImpl implements TopicService {
         topic.setStockSymbol(stock.getSymbol());
         topic.setStockName(stock.getName());
         topic.setCreatedOn(new Date());
-        topic.setCreatedBy(userData);
+        topic.setCreatedBy(userData.getId());
         TopicResponse topicResponse = modelMapper.map(topic, TopicResponse.class);
         topicResponse.setCreatedBy(userData);
         topicRepository.save(topic);
@@ -116,7 +116,7 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public List<TopicResponse> getAllTopic() {
-        List<Topic> topics = new ArrayList<>( topicRepository.findAllBySoftDeleteFalse());
+        List<Topic> topics = new ArrayList<>(topicRepository.findAllBySoftDeleteFalse());
         if (!CollectionUtils.isEmpty(topics)) {
             topics.sort(Comparator.comparing(Topic::getCreatedOn).reversed());
         }

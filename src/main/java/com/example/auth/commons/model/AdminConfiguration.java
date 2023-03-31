@@ -47,12 +47,12 @@ public class AdminConfiguration {
 
 
     public AdminConfiguration() {
-//        this.from = "sanskrityshukla4@gmail.com";
-//        this.username = "sanskrityshukla4@gmail.com";
-//        this.password = "rjincobhlxneflrt";
-        this.from = "stockpile.team@gmail.com";
-        this.username = "stockpile.team@gmail.com";
-        this.password="kqtcbqhukyvrcybb";
+        this.from = "sanskrityshukla4@gmail.com";
+        this.username = "sanskrityshukla4@gmail.com";
+        this.password = "rjincobhlxneflrt";
+//        this.from = "stockpile.team@gmail.com";
+//        this.username = "stockpile.team@gmail.com";
+//        this.password="kqtcbqhukyvrcybb";
         this.host = "smtp.gmail.com";
         //for outlook
 //        this.host = "smtp.office365.com";

@@ -54,12 +54,13 @@ public class PostServiceImpl implements PostService {
         UserData userData = userDataService.userById(postAddParameter.getUserId());
         Topic topic = topicService.topicById(postAddParameter.getTopicId());
         Post post = modelMapper.map(postAddParameter.getPostAddRequest(), Post.class);
-        post.setPostBy(userData);
         post.setCreatedOn(new Date());
         post.setStockInfo(stock.getId());
         post.setTopicInfo(topic.getId());
-        postRepository.save(post);
         PostResponse postResponse = modelMapper.map(post, PostResponse.class);
+        postResponse.setPostBy(userData);
+        post.setPostBy(userData.getId());
+        postRepository.save(post);
         return postResponse;
     }
 

@@ -13,7 +13,6 @@ public class GeneralHelper {
             page = 0;
         }
         if (limit == null) {
-            //size = configService.getConfiguration().getDefaultPageValue();
             limit = defaultPageValue;
         }
         return PageRequest.of(page, limit);

@@ -155,7 +155,6 @@ public class Utils {
             try {
                 // Create a default MimeMessage object.
                 MimeMessage message = new MimeMessage(session);
-
                 MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
 
                 // Set From: header field of the header.
@@ -165,19 +164,13 @@ public class Utils {
                 helper.setTo(emailModel.getTo());
 
                 if (emailModel.getCc() != null && emailModel.getCc().size() != 0) {
-
                     String[] cc = new String[emailModel.getCc().size()];
-
                     emailModel.getCc().toArray(cc);
-
                     helper.setCc(cc);
                 }
                 if (emailModel.getBcc() != null && emailModel.getBcc().size() != 0) {
-
                     String[] bcc = new String[emailModel.getBcc().size()];
-
                     emailModel.getBcc().toArray(bcc);
-
                     helper.setBcc(bcc);
                 }
                 //file empty not of email model
@@ -223,7 +216,6 @@ public class Utils {
 
                     try {
                         Transport.send(message);
-
                         log.info("email sent successfully");
 
                     } catch (MessagingException e) {

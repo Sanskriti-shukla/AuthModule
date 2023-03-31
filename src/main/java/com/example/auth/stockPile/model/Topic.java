@@ -30,7 +30,7 @@ public class Topic {
 
     String stockName;
 
-    UserData createdBy;
+    String createdBy;
 
     Date createdOn;
 

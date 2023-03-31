@@ -8,6 +8,7 @@ import com.example.auth.decorator.pagination.CustomerSortBy;
 import com.example.auth.decorator.pagination.FilterSortRequest;
 import com.example.auth.model.Customer;
 import com.example.auth.stockPile.decorator.NotificationAddRequest;
+import com.example.auth.stockPile.model.ServiceType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -16,7 +17,7 @@ import java.util.List;
 
 public interface CustomerService {
 
-    CustomerResponse addCustomer(CustomerAddRequest signUpAddRequest, Role role) ;
+    CustomerResponse addCustomer(CustomerAddRequest signUpAddRequest, Role role, ServiceType serviceType) ;
 
     CustomerResponse login(CustomerLoginAddRequest customerLoginAddRequest) ;
 
