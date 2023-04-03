@@ -3,7 +3,6 @@ package com.example.auth.stockPile.service;
 import com.example.auth.decorator.CommentsResponse;
 import com.example.auth.decorator.pagination.FilterSortRequest;
 import com.example.auth.stockPile.decorator.*;
-import com.example.auth.stockPile.model.Post;
 import com.example.auth.stockPile.model.ReactionType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

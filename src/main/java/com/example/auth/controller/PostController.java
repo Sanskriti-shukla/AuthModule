@@ -30,7 +30,8 @@ public class PostController {
         this.generalHelper = generalHelper;
     }
 
-//    @RequestMapping(name = "addPost",value = "/add",method = RequestMethod.POST)
+
+
     @PostMapping(name = "addPost" ,value = "/add")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<PostResponse> addPost(@RequestBody PostAddParameter postAddParameter){
@@ -39,7 +40,8 @@ public class PostController {
         dataResponse.setStatus(Response.getOkResponse(ResponseConstant.SAVED_SUCCESSFULLY));
         return dataResponse;
     }
-//    @RequestMapping(name = "updatePost",value = "/update/post",method = RequestMethod.POST)
+
+
     @PutMapping(name = "updatePost" , value = "/update/post")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<Object> updatePost(@RequestParam String id, @RequestBody PostAddRequest postAddRequest) throws NoSuchFieldException, IllegalAccessException {
@@ -48,7 +50,7 @@ public class PostController {
         dataResponse.setStatus(Response.getOkResponse(ResponseConstant.UPDATED_SUCCESSFULLY));
         return dataResponse;
     }
-//    @RequestMapping(name = "getPostById",value = "/{id}",method = RequestMethod.GET)
+
     @GetMapping(name = "getPostById" , value = "/{id}")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<PostResponse> getPostById( @PathVariable String id){
@@ -57,7 +59,7 @@ public class PostController {
         dataResponse.setStatus(Response.getOkResponse(ResponseConstant.OK));
         return dataResponse;
     }
-//    @RequestMapping(name = "getAllPost",value = "/all/post",method = RequestMethod.GET)
+
     @GetMapping(name = "getAllPost", value = "/all/post")
     @Access(levels = Role.ANONYMOUS)
     public ListResponse<PostResponse> getAllPost(){
@@ -67,7 +69,6 @@ public class PostController {
         return listResponse;
     }
 
-//    @RequestMapping(name = "deletePostById",value = "/delete/{id}",method = RequestMethod.POST)
     @DeleteMapping(name = "deletePostById" ,value = "delete/{id}")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<Object> deletePostById( @PathVariable String id){
@@ -78,7 +79,6 @@ public class PostController {
     }
 
 
-//   @RequestMapping(name = "addReaction",value = "/add/reaction",method = RequestMethod.POST)
     @PostMapping(name = "addReation", value = "/add/reaction")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<Object> addReaction(@RequestParam ReactionType reactionType, @RequestBody  ReactionAddRequest reactionAddRequest){
@@ -89,7 +89,6 @@ public class PostController {
     }
 
 
-//    @RequestMapping(name = "getAllReactionByPostId",value = "/all/reaction",method = RequestMethod.POST)
     @GetMapping(name = "getAllReactionByPostId" , value = "/all/reaction")
     @Access(levels = Role.ANONYMOUS)
     public ListResponse<ReactionResponse> getAllReactionByPostId(@RequestParam String postId){
@@ -99,7 +98,6 @@ public class PostController {
         return dataResponse;
     }
 
-//    @RequestMapping(name = "getAllCommentByPostId",value = "/all/comment",method = RequestMethod.POST)
     @PostMapping(name = "getAllCommentByPostId" , value = "/all/comment")
     @Access(levels = Role.ANONYMOUS)
     public ListResponse<CommentsResponse> getAllCommentByPostId(@RequestParam String postId){
@@ -111,7 +109,6 @@ public class PostController {
 
 
 
-//    @RequestMapping(name = "getAllPostByPagination",value = "/all/pagination",method = RequestMethod.POST)
     @PostMapping(name = "getAllPostByPagination" , value = "/all/pagination")
     @Access(levels = Role.ANONYMOUS)
     public PageResponse<PostResponse> getAllPostByPagination(@RequestBody FilterSortRequest<PostFilter, PostSortBy> filterSortRequest){
@@ -126,7 +123,6 @@ public class PostController {
 
 
 
-//    @RequestMapping(name = "getAllPostByTopicId",value = "/all/topicId",method = RequestMethod.GET)
     @GetMapping(name = "getAllPostByTopicId"  ,value = "/all/topicId")
     @Access(levels = Role.ANONYMOUS)
     public ListResponse<PostResponse> getAllPostByTopicId(@RequestParam String topicId){
@@ -136,7 +132,8 @@ public class PostController {
         return listResponse;
     }
 
-//    @RequestMapping(name = "deleteReaction",value = "deleteReaction/id",method = RequestMethod.POST)
+
+
     @DeleteMapping(name = "deleteReaction" , value = "/deleteReaction/id")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<Object> deleteReaction(@RequestBody ReactionAddRequest reactionAddRequest){

@@ -337,7 +337,8 @@ public class CustomerServiceImpl implements CustomerService {
         socialVerificationData.setImageUrl(customer.getImageUrl());
         socialVerificationData.setSocialVerify(customer.getSocialVerify());
 
-        return socialVerificationData;
+        return  socialVerificationData;
+
     }
 
     @VisibleForTesting

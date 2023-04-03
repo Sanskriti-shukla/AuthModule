@@ -4,6 +4,7 @@ import com.example.auth.commons.decorator.CustomAggregationOperation;
 import com.example.auth.decorator.pagination.CountQueryResult;
 import com.example.auth.decorator.pagination.FilterSortRequest;
 import com.example.auth.stockPile.decorator.*;
+import com.example.auth.stockPile.model.Topic;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
@@ -35,21 +36,21 @@ public class TopicCustomRepositoryImpl implements TopicCustomRepository{
 
 
     @Override
-    public Page<AggregationTopicResponse> getAllTopicByPagination(TopicFilter filter, FilterSortRequest.SortRequest<TopicSortBy> sort, PageRequest pagination) {
+    public Page<Topic> getAllTopicByPagination(TopicFilter filter, FilterSortRequest.SortRequest<TopicSortBy> sort, PageRequest pagination) {
 
             List<AggregationOperation> operations = topicFilterAggregation(filter, sort, pagination, true);
 
             //Created Aggregation operation
             Aggregation aggregation = newAggregation(operations);
 
-            List<AggregationTopicResponse> topics = mongoTemplate.aggregate(aggregation, "topics", AggregationTopicResponse.class).getMappedResults();
+            List<Topic> topics = mongoTemplate.aggregate(aggregation, "topics", Topic.class).getMappedResults();
 
             // Find Count
             List<AggregationOperation> operationForCount = topicFilterAggregation(filter, sort, pagination, false);
 
             operationForCount.add(group().count().as("count"));
             operationForCount.add(project("count"));
-            Aggregation aggregationCount = newAggregation(StockResponse.class, operationForCount);
+            Aggregation aggregationCount = newAggregation(AggregationTopicResponse.class, operationForCount);
             AggregationResults<CountQueryResult> countQueryResults = mongoTemplate.aggregate(aggregationCount, "topics", CountQueryResult.class);
             long count = countQueryResults.getMappedResults().size() == 0 ? 0 : countQueryResults.getMappedResults().get(0).getCount();
             return PageableExecutionUtils.getPage(

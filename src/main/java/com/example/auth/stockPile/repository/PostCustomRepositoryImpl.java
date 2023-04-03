@@ -3,6 +3,7 @@ import com.example.auth.commons.decorator.CustomAggregationOperation;
 import com.example.auth.decorator.pagination.CountQueryResult;
 import com.example.auth.decorator.pagination.FilterSortRequest;
 import com.example.auth.stockPile.decorator.*;
+import com.example.auth.stockPile.model.Post;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
@@ -32,13 +33,13 @@ public class PostCustomRepositoryImpl implements  PostCustomRepository{
     MongoTemplate mongoTemplate;
 
     @Override
-    public Page<PostResponse> getAllPostByPagination(PostFilter filter, FilterSortRequest.SortRequest<PostSortBy> sort, PageRequest pagination) {
+    public Page<Post> getAllPostByPagination(PostFilter filter, FilterSortRequest.SortRequest<PostSortBy> sort, PageRequest pagination) {
         List<AggregationOperation> operations = postFilterAggregation(filter, sort, pagination, true);
 
         //Created Aggregation operation
         Aggregation aggregation = newAggregation(operations);
 
-        List<PostResponse> postResponses = mongoTemplate.aggregate(aggregation, "posts", PostResponse.class).getMappedResults();
+        List<Post> postResponses = mongoTemplate.aggregate(aggregation, "posts", Post.class).getMappedResults();
 
         // Find Count
         List<AggregationOperation> operationForCount = postFilterAggregation(filter, sort, pagination, false);
@@ -71,7 +72,7 @@ public class PostCustomRepositoryImpl implements  PostCustomRepository{
         }
         if (!CollectionUtils.isEmpty(postFilter.getId())) {
 
-            criteria = criteria.and("id").is(postFilter.getId());
+            criteria = criteria.and("_id").is(postFilter.getId());
             System.out.println("idCriteria"+criteria);
 
         }

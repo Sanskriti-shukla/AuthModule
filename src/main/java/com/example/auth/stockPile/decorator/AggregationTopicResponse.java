@@ -21,7 +21,7 @@ public class AggregationTopicResponse {
 
     String stockName;
 
-//    UserData createdBy;
+    UserData createdBy;
 
     Date createdOn;
 

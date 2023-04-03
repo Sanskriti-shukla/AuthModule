@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import java.util.*;
@@ -106,7 +107,18 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Page<PostResponse> getAllPostByPagination(PostFilter filter, FilterSortRequest.SortRequest<PostSortBy> sort, PageRequest pagination) {
-        return postRepository.getAllPostByPagination(filter, sort, pagination);
+        Page<Post> postResponses =  postRepository.getAllPostByPagination(filter, sort, pagination);
+        List<PostResponse> list = new ArrayList<>();
+
+        postResponses.forEach(post -> {
+            PostResponse postResponse = modelMapper.map(post, PostResponse.class);
+            UserData userData = userDataService.userById(post.getPostBy());
+            postResponse.setPostBy(userData);
+            list.add(postResponse);
+        });
+        Page<PostResponse> page = new PageImpl<>(list, pagination, postResponses.getTotalElements());
+        return page;
+
     }
 
     @Override

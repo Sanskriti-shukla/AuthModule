@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -88,11 +89,22 @@ public class TopicServiceImpl implements TopicService {
         userHelper.difference(topic, topicAddRequest);
     }
 
-    @Override
-    public Page<AggregationTopicResponse> getAllTopicByPagination(TopicFilter filter, FilterSortRequest.SortRequest<TopicSortBy> sort, PageRequest pagination) {
-        return topicRepository.getAllTopicByPagination(filter, sort, pagination);
-    }
 
+    @Override
+    public Page<TopicResponse> getAllTopicByPagination(TopicFilter filter, FilterSortRequest.SortRequest<TopicSortBy> sort, PageRequest pagination) {
+
+        Page<Topic> topicResponses =  topicRepository.getAllTopicByPagination(filter, sort, pagination);
+        List<TopicResponse> list = new ArrayList<>();
+
+        topicResponses.forEach(topic -> {
+            TopicResponse topicResponse = modelMapper.map(topic, TopicResponse.class);
+            UserData userData = userDataService.userById(topic.getCreatedBy());
+            topicResponse.setCreatedBy(userData);
+            list.add(topicResponse);
+        });
+        Page<TopicResponse> page = new PageImpl<>(list, pagination, topicResponses.getTotalElements());
+        return page;
+    }
 
     @Override
     public String getTopicIdByTitleAndCreatedOn(Title title) throws ParseException {
