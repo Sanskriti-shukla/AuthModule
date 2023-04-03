@@ -321,10 +321,14 @@ public class CustomerServiceImpl implements CustomerService {
             imageUrl.put(ImageUrl.GOOGLE_IMG_URL, socialVerificationAddRequest.getImageUrl());
             userData.setImageUrl(imageUrl);
             customer.setImageUrl(imageUrl);
+            socialVerificationData.setImageUrl(Collections.singletonMap(ImageUrl.GOOGLE_IMG_URL, imageUrl.get(ImageUrl.GOOGLE_IMG_URL)));
+            socialVerificationData.setSocialVerify(Collections.singletonMap(socialVerify , true));
         } else if (socialVerify == SocialVerify.FACEBOOK) {
             imageUrl.put(ImageUrl.FACEBOOK_IMG_URL, socialVerificationAddRequest.getImageUrl());
             userData.setImageUrl(imageUrl);
             customer.setImageUrl(imageUrl);
+            socialVerificationData.setImageUrl(Collections.singletonMap(ImageUrl.FACEBOOK_IMG_URL, imageUrl.get(ImageUrl.FACEBOOK_IMG_URL)));
+            socialVerificationData.setSocialVerify(Collections.singletonMap(socialVerify , true));
         }
 
         socialVerifyMap = customer.getSocialVerify();
@@ -334,12 +338,12 @@ public class CustomerServiceImpl implements CustomerService {
         userDataRepository.save(userData);
         customerRepository.save(customer);
 
-        socialVerificationData.setImageUrl(customer.getImageUrl());
-        socialVerificationData.setSocialVerify(customer.getSocialVerify());
+//        socialVerificationData.setSocialVerify(Collections.singletonMap(socialVerify , true));
+
 
         return  socialVerificationData;
-
     }
+
 
     @VisibleForTesting
     public String passwords(String confirmPassword) {
