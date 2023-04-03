@@ -129,8 +129,8 @@ public class PostController {
 //    @RequestMapping(name = "getAllPostByTopicId",value = "/all/topicId",method = RequestMethod.GET)
     @GetMapping(name = "getAllPostByTopicId"  ,value = "/all/topicId")
     @Access(levels = Role.ANONYMOUS)
-    public ListResponse<Post> getAllPostByTopicId(@RequestParam String topicId){
-        ListResponse<Post> listResponse= new ListResponse<>();
+    public ListResponse<PostResponse> getAllPostByTopicId(@RequestParam String topicId){
+        ListResponse<PostResponse> listResponse= new ListResponse<>();
         listResponse.setData(postService.getAllPostByTopicId(topicId));
         listResponse.setStatus(Response.getOkResponse(ResponseConstant.OK));
         return listResponse;

@@ -89,7 +89,7 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public Page<TopicResponse> getAllTopicByPagination(TopicFilter filter, FilterSortRequest.SortRequest<TopicSortBy> sort, PageRequest pagination) {
+    public Page<AggregationTopicResponse> getAllTopicByPagination(TopicFilter filter, FilterSortRequest.SortRequest<TopicSortBy> sort, PageRequest pagination) {
         return topicRepository.getAllTopicByPagination(filter, sort, pagination);
     }
 

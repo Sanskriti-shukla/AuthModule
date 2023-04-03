@@ -88,11 +88,11 @@ public class TopicController {
 //
 //    @RequestMapping(name = "getAllTopicByPagination", value = "/get/all/pagination", method = RequestMethod.POST)
 
-    @GetMapping(name = "getAllTopicByPagination" , value = "/get/all/pagination")
+    @PostMapping(name = "getAllTopicByPagination" , value = "/get/Alltopic")
     @Access(levels = Role.ANONYMOUS)
-    public PageResponse<TopicResponse> getAllTopicByPagination(@RequestBody FilterSortRequest<TopicFilter, TopicSortBy> filterSortRequest) {
-        PageResponse<TopicResponse> pageResponse = new PageResponse<>();
-        Page<TopicResponse> page = topicService.getAllTopicByPagination(filterSortRequest.getFilter(), filterSortRequest.getSort()
+    public PageResponse<AggregationTopicResponse> getAllTopicByPagination(@RequestBody FilterSortRequest<TopicFilter, TopicSortBy> filterSortRequest) {
+        PageResponse<AggregationTopicResponse> pageResponse = new PageResponse<>();
+        Page<AggregationTopicResponse> page = topicService.getAllTopicByPagination(filterSortRequest.getFilter(), filterSortRequest.getSort()
                 , generalHelper.getPagination(filterSortRequest.getPagination().getPage(), filterSortRequest.getPagination().getLimit()));
         pageResponse.setData(page);
         pageResponse.setStatus(Response.getOkResponse(ResponseConstant.OK));

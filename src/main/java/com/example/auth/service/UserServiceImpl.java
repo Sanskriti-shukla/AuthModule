@@ -90,11 +90,8 @@ public class UserServiceImpl implements UserService {
     public MonthAndYear userChartApi(int year) {
 
         MonthAndYear monthAndYear = new MonthAndYear();
-
         List<UserDateDetails> userDateDetails = new ArrayList<>(userRepository.userChartApi(year));
-
         HashMap<String, Double> month = new LinkedHashMap<>();
-
         Set<String> title = new LinkedHashSet<>();
         month.put("JAN", 1.0);
         month.put("FEB", 2.0);
@@ -121,24 +118,16 @@ public class UserServiceImpl implements UserService {
             boolean exist = userDateDetails.stream().anyMatch(e -> e.getMonth() == entry.getValue());
             if (!exist) {
                 UserDateDetails userDateDetails1 = new UserDateDetails();
-
                 userDateDetails1.setMonth(entry.getValue());
-
                 userDateDetails1.setYear(year);
-
                 userDateDetails1.setCount(0.0);
-
                 userDateDetails.add(userDateDetails1);
             }
         }
         userDateDetails.sort(Comparator.comparing(UserDateDetails::getMonth));
-
         monthAndYear.setUserDateDetails(userDateDetails);
-
         monthAndYear.setTitle(title);
-
         monthAndYear.setTotalCount(totalCount);
-
         return monthAndYear;
     }
 
@@ -147,13 +136,10 @@ public class UserServiceImpl implements UserService {
     public List<UserResponse> getAllUser() {
 
         List<User> users = userRepository.findAllBySoftDeleteFalse();
-
         List<UserResponse> userResponseList = new ArrayList<>();
 
         users.forEach(user -> {
-
             UserResponse userResponse1 = modelMapper.map(user, UserResponse.class);
-
             userResponseList.add(userResponse1);
         });
 
@@ -177,13 +163,9 @@ public class UserServiceImpl implements UserService {
     public UserResponse getToken(String id)  {
 
         User user = getUserModel(id);
-
         UserResponse userResponse = new UserResponse();
-
         userResponse.setRole(user.getRole());
-
         JWTUser jwtUser = new JWTUser(id, Collections.singletonList(userResponse.getRole().toString()));
-
         String token = jwtTokenUtil.generateToken(jwtUser);
 
         try {
@@ -193,9 +175,7 @@ public class UserServiceImpl implements UserService {
         }
 
         userResponse.setToken(token);
-
         userResponse.setId(user.getId());
-
         return userResponse;
     }
 
@@ -203,7 +183,6 @@ public class UserServiceImpl implements UserService {
     public String getIdFromToken(String token) {
 
         String id = jwtTokenUtil.getUserIdFromToken(token);
-
         boolean exist = userRepository.existsById(id);
 
         if (exist) {

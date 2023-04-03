@@ -7,7 +7,6 @@ import com.example.auth.stockPile.decorator.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.Document;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,14 +35,14 @@ public class TopicCustomRepositoryImpl implements TopicCustomRepository{
 
 
     @Override
-    public Page<TopicResponse> getAllTopicByPagination(TopicFilter filter, FilterSortRequest.SortRequest<TopicSortBy> sort, PageRequest pagination) {
+    public Page<AggregationTopicResponse> getAllTopicByPagination(TopicFilter filter, FilterSortRequest.SortRequest<TopicSortBy> sort, PageRequest pagination) {
 
             List<AggregationOperation> operations = topicFilterAggregation(filter, sort, pagination, true);
 
             //Created Aggregation operation
             Aggregation aggregation = newAggregation(operations);
 
-            List<TopicResponse> topics = mongoTemplate.aggregate(aggregation, "topics", TopicResponse.class).getMappedResults();
+            List<AggregationTopicResponse> topics = mongoTemplate.aggregate(aggregation, "topics", AggregationTopicResponse.class).getMappedResults();
 
             // Find Count
             List<AggregationOperation> operationForCount = topicFilterAggregation(filter, sort, pagination, false);
@@ -65,10 +64,8 @@ public class TopicCustomRepositoryImpl implements TopicCustomRepository{
             Criteria criteria = new Criteria();
             operations.add(new CustomAggregationOperation(new Document("$addFields", new Document("search",
                     new Document("$concat", Arrays.asList(new Document("$ifNull", Arrays.asList("$title", ""))
-
-
-
                     ))))));
+
             if (!StringUtils.isEmpty(topicFilter.getSearch())) {
                 topicFilter.setSearch(topicFilter.getSearch().replaceAll("\\|@\\|", ""));
                 topicFilter.setSearch(topicFilter.getSearch().replaceAll("\\|@@\\|", ""));
@@ -77,7 +74,7 @@ public class TopicCustomRepositoryImpl implements TopicCustomRepository{
                 );
             }
             if (!CollectionUtils.isEmpty(topicFilter.getIds())) {
-                criteria = criteria.and("ids").is(topicFilter.getIds());
+                criteria = criteria.and("_id").is(topicFilter.getIds());
             }
             criteria = criteria.and("softDelete").is(false);
             return criteria;

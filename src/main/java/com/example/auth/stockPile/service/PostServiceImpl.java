@@ -110,14 +110,20 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getAllPostByTopicId(String topicId) {
+    public List<PostResponse> getAllPostByTopicId(String topicId) {
         List<PostResponse> postResponses = new ArrayList<>();
         boolean exist = postRepository.existsByTopicInfoAndSoftDeleteFalse(topicId);
         if (!exist) {
             throw new NotFoundException(MessageConstant.ID_NOT_FOUND);
         } else {
             List<Post> posts = postRepository.findByTopicInfoAndSoftDeleteIsFalse(topicId);
-            return posts;
+            posts.forEach(post -> {
+                PostResponse postResponse = modelMapper.map(post, PostResponse.class);
+            UserData userData = userDataService.userById(post.getPostBy());
+            postResponse.setPostBy(userData);
+            postResponses.add(postResponse);
+        });
+            return postResponses;
         }
     }
 
