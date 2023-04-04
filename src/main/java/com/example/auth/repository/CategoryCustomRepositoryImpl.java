@@ -59,7 +59,6 @@ public class CategoryCustomRepositoryImpl implements CategoryCustomRepository {
         List<AggregationOperation> operations = new ArrayList<>();
 
         operations.add(match(getCriteria(filter, operations)));
-        System.out.println("match :");
         if (addPage) {
             //sorting
             if (sort != null && sort.getSortBy() != null && sort.getOrderBy() != null) {

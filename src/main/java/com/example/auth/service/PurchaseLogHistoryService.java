@@ -25,7 +25,7 @@ public interface PurchaseLogHistoryService {
     List<PurchaseLogHistoryResponse> getAllPurchaseLog();
 
 
-    Object deletePurchaseLogById(String id);
+    void deletePurchaseLogById(String id);
 
     Page<PurchaseLogHistoryResponse> getAllPurchaseLogByPagination(PurchaseLogFilter purchaseLogFilter, FilterSortRequest.SortRequest<PurchaseLogSortBy> sort, PageRequest pageRequest);
 

@@ -21,7 +21,6 @@ import java.util.List;
 public class Stock {
 
     @Id
-
     String id;
 
     String symbol;

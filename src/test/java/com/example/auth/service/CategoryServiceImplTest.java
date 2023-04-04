@@ -27,10 +27,9 @@ class CategoryServiceImplTest {
     private static final String id = "id";
     private final CategoryRepository categoryRepository = Mockito.mock(CategoryRepository.class);
     private final ModelMapper modelMapper = CategoryServiceImplGenerator.getModelMapper();
-    private final NullAwareBeanUtilsBean nullAwareBeanUtilsBean = Mockito.mock(NullAwareBeanUtilsBean.class);
     private final ItemService itemService = Mockito.mock(ItemService.class);
     private final AdminConfigurationService adminConfigurationService=Mockito.mock(AdminConfigurationService.class);
-    public CategoryService categoryService = new CategoryServiceImpl(categoryRepository, modelMapper, nullAwareBeanUtilsBean, itemService, adminConfigurationService);
+    public CategoryService categoryService = new CategoryServiceImpl(categoryRepository, modelMapper, itemService, adminConfigurationService);
 
 
     @Test

@@ -85,7 +85,6 @@ public class UserDataServiceImpl implements UserDataService {
     }
 
 
-
     private UserData userByEmail(String email) {
         return  userDataRepository.findByEmailAndSoftDeleteIsFalse(email).orElseThrow(()-> new NotFoundException(MessageConstant.EMAIL_NOT_FOUND));
     }
@@ -94,9 +93,6 @@ public class UserDataServiceImpl implements UserDataService {
     public UserData userById(String id) {
         return userDataRepository.findByIdAndSoftDeleteIsFalse(id).orElseThrow(() -> new NotFoundException(MessageConstant.USER_ID_NOT_FOUND));
     }
-
-
-
 
 
     public void checkValidation(UserAddRequest userAddRequest){
@@ -108,7 +104,6 @@ public class UserDataServiceImpl implements UserDataService {
         if (!userAddRequest.getEmail().matches(adminConfiguration.getEmailRegex())){
             throw  new InvalidRequestException(MessageConstant.INVALID_EMAIL);
         }
-
 
         if (!userAddRequest.getContact().matches(adminConfiguration.getMobileNoRegex())) {
             throw new InvalidRequestException(MessageConstant.INVALID_PHONE_NUMBER);

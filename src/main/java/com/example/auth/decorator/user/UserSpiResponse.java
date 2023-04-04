@@ -20,5 +20,4 @@ public class UserSpiResponse extends HashMap<String, List<UserSpiDataInExcel>> {
     int count;
     int average;
 
-
 }

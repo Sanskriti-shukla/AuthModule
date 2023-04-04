@@ -1,6 +1,5 @@
 package com.example.auth.service;
 
-import com.example.auth.commons.advice.NullAwareBeanUtilsBean;
 import com.example.auth.commons.constant.MessageConstant;
 import com.example.auth.commons.exception.InvalidRequestException;
 import com.example.auth.commons.exception.NotFoundException;
@@ -28,14 +27,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
-    private final NullAwareBeanUtilsBean nullAwareBeanUtilsBean;
     private final ItemService itemService;
     private final AdminConfigurationService adminConfigurationService;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper modelMapper, NullAwareBeanUtilsBean nullAwareBeanUtilsBean, ItemService itemService, AdminConfigurationService adminConfigurationService) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper modelMapper, ItemService itemService, AdminConfigurationService adminConfigurationService) {
         this.categoryRepository = categoryRepository;
         this.modelMapper = modelMapper;
-        this.nullAwareBeanUtilsBean = nullAwareBeanUtilsBean;
         this.itemService = itemService;
         this.adminConfigurationService = adminConfigurationService;
     }
@@ -43,15 +40,10 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryResponse addCategory(CategoryAddRequest categoryAddRequest) {
 
         Category category = modelMapper.map(categoryAddRequest, Category.class);
-
         category.setDate(new Date());
-
         CategoryResponse categoryResponse = modelMapper.map(categoryAddRequest, CategoryResponse.class);
-
         checkValidation(categoryAddRequest);
-
         categoryRepository.save(category);
-
         return categoryResponse;
     }
 
@@ -59,39 +51,26 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryResponse updateCategory(String id, CategoryAddRequest categoryAddRequest) {
 
         Category category = getById(id);
-
         category.setDate(new Date());
-
         category.setCategoryName(categoryAddRequest.getCategoryName());
-
         CategoryResponse categoryResponse = modelMapper.map(categoryAddRequest, CategoryResponse.class);
-
         categoryRepository.save(category);
-
         return categoryResponse;
     }
 
     @Override
     public CategoryResponse getCategoryById(String id) {
-
         Category category = getById(id);
-
-        CategoryResponse categoryResponse = modelMapper.map(category, CategoryResponse.class);
-
-        return categoryResponse;
+    return modelMapper.map(category, CategoryResponse.class);
     }
 
     @Override
     public List<CategoryResponse> getAllCategory() {
 
         List<Category> category = categoryRepository.findAllBySoftDeleteFalse();
-
         List<CategoryResponse> categoryResponses = new ArrayList<>();
-
         category.forEach(category1 -> {
-
             CategoryResponse categoryResponse = modelMapper.map(category1, CategoryResponse.class);
-
             categoryResponses.add(categoryResponse);
         });
         return categoryResponses;
@@ -101,11 +80,8 @@ public class CategoryServiceImpl implements CategoryService {
     public void deleteCategory(String id) {
 
         Category category = getById(id);
-
         itemService.removeItems(id);
-
         category.setSoftDelete(true);
-
         categoryRepository.save(category);
     }
 

@@ -83,7 +83,7 @@ public class PurchaseLogHistoryController {
     @Access (levels = Role.ADMIN)
     public DataResponse<Object> deletePurchaseLogById(@RequestParam String id) {
         DataResponse<Object> dataResponse = new DataResponse<>();
-        dataResponse.setData(purchaseLogHistoryService.deletePurchaseLogById(id));
+          purchaseLogHistoryService.deletePurchaseLogById(id);
         dataResponse.setStatus(Response.getOkResponse(ResponseConstant.DELETED_SUCCESSFULLY));
 
         return dataResponse;

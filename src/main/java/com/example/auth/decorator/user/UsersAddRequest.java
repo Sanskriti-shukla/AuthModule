@@ -17,10 +17,9 @@ import javax.validation.constraints.NotNull;
 public class UsersAddRequest {
     @NotNull
     String firstName;
-
-   String middleName;
-   String lastName;
-        double age;
+    String middleName;
+    String lastName;
+    double age;
     String occupation;
     double salary;
     Address address;

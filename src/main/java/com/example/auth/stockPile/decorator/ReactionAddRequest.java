@@ -12,8 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ReactionAddRequest {
-
     String userId;
-
     String postId;
 }

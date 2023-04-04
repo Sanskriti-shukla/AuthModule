@@ -1,6 +1,5 @@
 package com.example.auth.service;
 
-import com.example.auth.commons.advice.NullAwareBeanUtilsBean;
 import com.example.auth.commons.constant.MessageConstant;
 import com.example.auth.commons.exception.InvalidRequestException;
 import com.example.auth.commons.exception.NotFoundException;
@@ -27,40 +26,32 @@ import java.util.List;
 public class ResultServiceImpl implements ResultService {
 
     private final UserRepository userRepository;
-    private final NullAwareBeanUtilsBean nullAwareBeanUtilsBean;
     private final ModelMapper modelMapper;
     private final AdminConfigurationService adminConfigurationService;
 
-    public ResultServiceImpl(UserRepository userRepository, NullAwareBeanUtilsBean nullAwareBeanUtilsBean, ModelMapper modelMapper, AdminConfigurationService adminConfigurationService) {
+    public ResultServiceImpl(UserRepository userRepository, ModelMapper modelMapper, AdminConfigurationService adminConfigurationService) {
         this.userRepository = userRepository;
-        this.nullAwareBeanUtilsBean = nullAwareBeanUtilsBean;
         this.modelMapper = modelMapper;
         this.adminConfigurationService = adminConfigurationService;
     }
 
     @Override
     public UserResponse addResult(String id, Result result) {
-
         List<Result> results = new ArrayList<>();
-
         List<Result> finalResults = new ArrayList<>();
-
         User user1 = getUserModel(id);
 
         double sum = 0;
         double cgpa = 0;
 
         if (!CollectionUtils.isEmpty(user1.getResult())) {
-
             results = user1.getResult();
-
             checkResultValidation(result);
 
             boolean matchFound = results.parallelStream()
                     .anyMatch(result1 -> result1.getSemester() == result.getSemester());
 
             if (matchFound) {
-
                 throw new NotFoundException(MessageConstant.SEMESTER_ALREADY_EXIST);
             }
 
@@ -72,20 +63,13 @@ public class ResultServiceImpl implements ResultService {
             sum += result1.getSpi();
         }
         cgpa = sum / finalResults.size();
-
         cgpa = Double.parseDouble(new DecimalFormat("##.##").format(cgpa));
-
         user1.setCgpa(cgpa);
-
         user1.setResult(finalResults);
-
         userRepository.save(user1);
 
-        UserResponse userResponse = new UserResponse();
+        return modelMapper.map(user1, UserResponse.class);
 
-        modelMapper.map(user1, userResponse);
-
-        return userResponse;
     }
 
 
@@ -100,15 +84,11 @@ public class ResultServiceImpl implements ResultService {
     }
 
     public void checkResultValidation(Result result) {
-
         AdminConfiguration adminConfiguration = adminConfigurationService.getConfiguration();
 
         String sem = String.valueOf(result.getSemester());
-
         if (!sem.matches(adminConfiguration.getSemesterRegex())) {
-
             throw new InvalidRequestException(MessageConstant.INVALID_SEMESTER);
-
         }
         if (result.getSpi() > 10) {
             throw new NotFoundException(MessageConstant.SPI_NOT_VALID);

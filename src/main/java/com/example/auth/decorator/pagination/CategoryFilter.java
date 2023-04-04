@@ -13,16 +13,17 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 public class CategoryFilter {
-        String search;
-        Set<String> id;
-        @JsonIgnore
-        boolean softDelete;
+    String search;
+    Set<String> id;
+    @JsonIgnore
+    boolean softDelete;
 
-        public String getSearch(){
-            if (search!=null){
-                return search.trim();
-            }
-            return search;
+    public String getSearch() {
+        if (search != null) {
+            return search.trim();
         }
+        return search;
     }
+}
+
 

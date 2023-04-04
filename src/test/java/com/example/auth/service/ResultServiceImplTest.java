@@ -22,11 +22,10 @@ class ResultServiceImplTest {
     private static final String id = "id";
 
     private final UserRepository userRepository = Mockito.mock(UserRepository.class);
-    private final NullAwareBeanUtilsBean nullAwareBeanUtilsBean = Mockito.mock(NullAwareBeanUtilsBean.class);
     private final ModelMapper modelMapper = ResultServiceImplTestGenerator.getModelMapper();
     private final AdminConfigurationService adminConfigurationService= mock(AdminConfigurationService.class);
 
-    public ResultService resultService = new ResultServiceImpl(userRepository, nullAwareBeanUtilsBean, modelMapper, adminConfigurationService);
+    public ResultService resultService = new ResultServiceImpl(userRepository, modelMapper, adminConfigurationService);
 
     @Test
     void TestAddResult() throws InvocationTargetException, IllegalAccessException {

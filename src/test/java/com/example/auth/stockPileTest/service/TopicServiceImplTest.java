@@ -36,9 +36,9 @@ import static org.mockito.Mockito.*;
     private final UserHelper userHelper = mock(UserHelper.class);
     private final FcmService fcmService = mock(FcmService.class);
     private final NotificationRepository notificationRepository = mock(NotificationRepository.class);
-    private final Notification notification = mock(Notification.class);
 
-    public TopicService topicService = new TopicServiceImpl(topicRepository,modelMapper,stockService,userDataService,userHelper,fcmService,notificationRepository,notification);
+
+    public TopicService topicService = new TopicServiceImpl(topicRepository,modelMapper,stockService,userDataService,userHelper,fcmService,notificationRepository);
     @Test
 
     void testAddTopic(){

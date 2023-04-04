@@ -28,18 +28,16 @@ import static org.mockito.Mockito.*;
     private final PostRepository postRepository= mock(PostRepository.class);
     private final StockServiceImpl stockService = mock(StockServiceImpl.class);
     private final TopicServiceImpl topicService = mock(TopicServiceImpl.class);
-    private final TopicRepository topicRepository = mock(TopicRepository.class);
     private final UserDataServiceImpl userDataService = mock(UserDataServiceImpl.class);
     private final ModelMapper modelMapper = PostServiceImplTestGenerator.getModelMapper();
     private final UserHelper userHelper = mock(UserHelper.class);
-    private final Reaction reaction = mock(Reaction.class);
     private final ReactionRepository reactionRepository = mock(ReactionRepository.class);
     private final UserDataRepository userDataRepository = mock(UserDataRepository.class);
     private final CommentRepository commentRepository = mock(CommentRepository.class);
     private final CommentService commentService = mock(CommentService.class);
 
-    public PostService postService = new PostServiceImpl(postRepository,stockService,topicService,topicRepository,
-            userDataService,modelMapper,userHelper,reaction,reactionRepository,userDataRepository,commentRepository,commentService);
+    public PostService postService = new PostServiceImpl(postRepository,stockService,topicService,
+            userDataService,modelMapper,userHelper,reactionRepository,userDataRepository,commentRepository,commentService);
 
 
     @Test

@@ -22,26 +22,22 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final StockServiceImpl stockService;
     private final TopicServiceImpl topicService;
-    private final TopicRepository topicRepository;
     private final UserDataServiceImpl userDataService;
     private final ModelMapper modelMapper;
     private final UserHelper userHelper;
-    private final Reaction reaction;
     private final ReactionRepository reactionRepository;
     private final UserDataRepository userDataRepository;
     private final CommentRepository commentRepository;
     private final CommentService commentService;
 
 
-    public PostServiceImpl(PostRepository postRepository, StockServiceImpl stockService, TopicServiceImpl topicService, TopicRepository topicRepository, UserDataServiceImpl userDataService, ModelMapper modelMapper, UserHelper userHelper, Reaction reaction, ReactionRepository reactionRepository, UserDataRepository userDataRepository, CommentRepository commentRepository, CommentService commentService) {
+    public PostServiceImpl(PostRepository postRepository, StockServiceImpl stockService, TopicServiceImpl topicService, UserDataServiceImpl userDataService, ModelMapper modelMapper, UserHelper userHelper, ReactionRepository reactionRepository, UserDataRepository userDataRepository, CommentRepository commentRepository, CommentService commentService) {
         this.postRepository = postRepository;
         this.stockService = stockService;
         this.topicService = topicService;
-        this.topicRepository = topicRepository;
         this.userDataService = userDataService;
         this.modelMapper = modelMapper;
         this.userHelper = userHelper;
-        this.reaction = reaction;
         this.reactionRepository = reactionRepository;
         this.userDataRepository = userDataRepository;
         this.commentRepository = commentRepository;
@@ -116,9 +112,7 @@ public class PostServiceImpl implements PostService {
             postResponse.setPostBy(userData);
             list.add(postResponse);
         });
-        Page<PostResponse> page = new PageImpl<>(list, pagination, postResponses.getTotalElements());
-        return page;
-
+       return  new PageImpl<>(list, pagination, postResponses.getTotalElements());
     }
 
     @Override
@@ -169,7 +163,6 @@ public class PostServiceImpl implements PostService {
             commentResponse.setComment(comment.getComment());
             commentResponse.setCreatedOn(comment.getCreatedOn());
             commentsResponses.add(commentResponse);
-
         }
         return commentsResponses;
     }
@@ -188,30 +181,6 @@ public void addReaction(ReactionType reactionType, ReactionAddRequest reactionAd
 
 
 }
-//
-//    public void checkReaction(ReactionType reactionType, ReactionAddRequest reactionAddRequest){
-//        Post post = getById(reactionAddRequest.getPostId());
-//        UserData userData = userDataService.userById(reactionAddRequest.getUserId());
-//        Reaction existingReaction = reactionRepository.findByPostIdAndUserId(post.getId(), userData.getId());
-//
-//        if (existingReaction != null) {
-//            ReactionType existingReactionType = existingReaction.getReactionType();
-//            int existingCount = post.getReaction().getOrDefault(existingReactionType, 0);
-//            if (existingCount > 0) {
-//                existingCount--;
-//                post.getReaction().put(existingReactionType, existingCount);
-//            }
-//            ReactionType otherReactionType = ReactionType.getOtherReactionType(existingReactionType);
-//            post.getReaction().put(otherReactionType, 0);
-//            reactionRepository.delete(existingReaction);
-//        }
-//        int count = post.getReaction().getOrDefault(reactionType, 0);
-//        count++;
-//        post.getReaction().put(reactionType, count);
-//        postRepository.save(post);
-//
-//    }
-
     public void checkReaction(ReactionType reactionType, ReactionAddRequest reactionAddRequest){
         Post post = getById(reactionAddRequest.getPostId());
         UserData userData = userDataService.userById(reactionAddRequest.getUserId());
@@ -222,11 +191,13 @@ public void addReaction(ReactionType reactionType, ReactionAddRequest reactionAd
             int existingCount = post.getReaction().getOrDefault(existingReactionType, 0);
             if (existingCount > 0) {
                 existingCount--;
+
                 Map<ReactionType, Integer> newReactionMap = new HashMap<>(post.getReaction());
                 newReactionMap.put(existingReactionType, existingCount);
                 post.setReaction(newReactionMap);
             }
             ReactionType otherReactionType = ReactionType.getOtherReactionType(existingReactionType);
+            //sonarlint suggestion for EnumMap
             Map<ReactionType, Integer> newReactionMap = new HashMap<>(post.getReaction());
             newReactionMap.put(otherReactionType, 0);
             post.setReaction(newReactionMap);

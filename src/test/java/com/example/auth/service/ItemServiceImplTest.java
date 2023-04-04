@@ -33,9 +33,8 @@ class ItemServiceImplTest {
     private final ItemRepository itemRepository = mock(ItemRepository.class);
     private final CategoryRepository categoryRepository = mock(CategoryRepository.class);
     private final ModelMapper modelMapper = ItemServiceImplTestGenerator.getModelMapper();
-    private final NullAwareBeanUtilsBean nullAwareBeanUtilsBean = mock(NullAwareBeanUtilsBean.class);
     private final UserHelper userHelper=mock(UserHelper.class);
-private final ItemServiceImpl itemService=new ItemServiceImpl(categoryRepository,itemRepository,modelMapper,nullAwareBeanUtilsBean, userHelper);
+private final ItemServiceImpl itemService=new ItemServiceImpl(categoryRepository,itemRepository,modelMapper, userHelper);
     @Test
     void testUpdateItem() throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {
 

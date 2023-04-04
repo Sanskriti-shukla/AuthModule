@@ -50,7 +50,7 @@ public class TopicCustomRepositoryImpl implements TopicCustomRepository{
 
             operationForCount.add(group().count().as("count"));
             operationForCount.add(project("count"));
-            Aggregation aggregationCount = newAggregation(AggregationTopicResponse.class, operationForCount);
+            Aggregation aggregationCount = newAggregation(TopicResponse.class, operationForCount);
             AggregationResults<CountQueryResult> countQueryResults = mongoTemplate.aggregate(aggregationCount, "topics", CountQueryResult.class);
             long count = countQueryResults.getMappedResults().size() == 0 ? 0 : countQueryResults.getMappedResults().get(0).getCount();
             return PageableExecutionUtils.getPage(

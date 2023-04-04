@@ -9,11 +9,8 @@ import java.util.List;
 
 @Repository
 public interface SubscriberRepository extends MongoRepository<Subscriber,String> {
-//    Subscriber findByStockidAndUserId(String id, String userId);
 
     void deleteByStockidAndUserId(String id, String subscribesId);
-
-//    Subscriber findByUserId(String userId);
 
     List<Subscriber> findAllByUserId(String userId);
 }

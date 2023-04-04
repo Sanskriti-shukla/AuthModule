@@ -1,7 +1,5 @@
 package com.example.auth.stockPile.service;
 
-
-import com.example.auth.commons.advice.NullAwareBeanUtilsBean;
 import com.example.auth.commons.constant.MessageConstant;
 import com.example.auth.commons.exception.InvalidRequestException;
 import com.example.auth.commons.exception.NotFoundException;
@@ -29,24 +27,19 @@ import java.util.stream.Collectors;
 @Slf4j
 public class StockServiceImpl implements StockService {
     private final StockRepository stockRepository;
-    private final NullAwareBeanUtilsBean nullAwareBeanUtilsBean;
     private final UserHelper userHelper;
     private final ModelMapper modelMapper;
-    private final UserData userData;
     private final UserDataServiceImpl userDataService;
     private final UserDataRepository userDataRepository;
-    private final Subscriber subscriber;
     private final SubscriberRepository subscriberRepository;
 
-    public StockServiceImpl(StockRepository stockRepository, NullAwareBeanUtilsBean nullAwareBeanUtilsBean, UserHelper userHelper, ModelMapper modelMapper, UserData userData, UserDataServiceImpl userDataService, UserDataRepository userDataRepository, Subscriber subscriber, SubscriberRepository subscriberRepository) {
+    public StockServiceImpl(StockRepository stockRepository, UserHelper userHelper, ModelMapper modelMapper, UserDataServiceImpl userDataService, UserDataRepository userDataRepository, SubscriberRepository subscriberRepository) {
         this.stockRepository = stockRepository;
-        this.nullAwareBeanUtilsBean = nullAwareBeanUtilsBean;
+
         this.userHelper = userHelper;
         this.modelMapper = modelMapper;
-        this.userData = userData;
         this.userDataService = userDataService;
         this.userDataRepository = userDataRepository;
-        this.subscriber = subscriber;
         this.subscriberRepository = subscriberRepository;
     }
 
@@ -60,15 +53,15 @@ public class StockServiceImpl implements StockService {
             return stockResponse;
         }
         stockRepository.save(stock);
-        StockResponse stockResponse = modelMapper.map(stock, StockResponse.class);
-        return stockResponse;
+        return  modelMapper.map(stock, StockResponse.class);
+
     }
 
     @Override
     public StockResponse getStockById(String id) {
         Stock stock = stockById(id);
-        StockResponse stockResponse = modelMapper.map(stock, StockResponse.class);
-        return stockResponse;
+        return modelMapper.map(stock, StockResponse.class);
+
     }
 
 
@@ -148,8 +141,8 @@ public class StockServiceImpl implements StockService {
     @Override
     public StockResponse getStockBySymbol(String symbol) {
         Stock stock = getBySymbol(symbol);
-        StockResponse stockResponse = modelMapper.map(stock, StockResponse.class);
-        return stockResponse;
+        return  modelMapper.map(stock, StockResponse.class);
+
     }
 
     @Override
