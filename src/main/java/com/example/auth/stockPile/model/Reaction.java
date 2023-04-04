@@ -1,40 +1,28 @@
-package com.example.auth.exercise.model;
-
-
+package com.example.auth.stockPile.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "userInfo")
-public class UserInfo {
-    @Id
+@Document(collection = "reaction")
+@Builder
+public class Reaction {
 
+    @Id
     String id;
 
-    String firstName;
+    String userId;
 
-    String lastName;
+    String postId;
 
-    Date birthDate;
-
-    String email;
-
-    String city;
-
-    String state;
-
-    String country;
+    ReactionType reactionType;
 
     @JsonIgnore
     boolean softDelete;
-
-
 }

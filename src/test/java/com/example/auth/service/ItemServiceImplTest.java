@@ -178,8 +178,6 @@ private final ItemServiceImpl itemService=new ItemServiceImpl(categoryRepository
         //then
         Assertions.assertEquals("Id not found", exception.getMessage());
 
-
     }
-
 
 }

@@ -1,0 +1,35 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"-->
+<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">-->
+<!--<head>-->
+<!--    <title>Welcome</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Welcome Page</h1>-->
+<!--<p>Welcome to Spring Security</p>-->
+<!--<form th:action="@{/logout}" method="post">-->
+<!--    <input type="submit" value="Sign Out"/>-->
+<!--x</form>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Welcome</title>
+</head>
+<body>
+<h1>Welcome Page</h1>
+<p>Welcome to Spring Security</p>
+<form id="logout-form" th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+<script>
+    document.getElementById("logout-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        window.location.href = "/login";
+    });
+</script>
+</body>
+</html>

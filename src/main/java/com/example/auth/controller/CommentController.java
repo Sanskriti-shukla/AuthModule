@@ -7,6 +7,7 @@ import com.example.auth.commons.decorator.DataResponse;
 import com.example.auth.commons.decorator.ListResponse;
 import com.example.auth.commons.decorator.Response;
 import com.example.auth.commons.enums.Role;
+import com.example.auth.stockPile.decorator.AddComment;
 import com.example.auth.stockPile.decorator.CommentAddRequest;
 import com.example.auth.stockPile.decorator.CommentResponse;
 import com.example.auth.stockPile.service.CommentService;
@@ -22,16 +23,19 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @RequestMapping(name = "addComment", value = "/add", method = RequestMethod.POST)
+
+//    @RequestMapping(name = "addComment", value = "/add", method = RequestMethod.POST)
+    @PostMapping(name = "addComment" , value = "/add/comment")
     @Access(levels = Role.ANONYMOUS)
-    public DataResponse<CommentResponse> addComment(@RequestParam String userId, @RequestParam String postId,@RequestBody CommentAddRequest commentAddRequest) {
+    public DataResponse<CommentResponse> addComment(@RequestBody AddComment addComment) {
         DataResponse<CommentResponse> dataResponse = new DataResponse<>();
-        dataResponse.setData(commentService.addComment(userId,postId,commentAddRequest));
+        dataResponse.setData(commentService.addComment(addComment));
         dataResponse.setStatus(Response.getOkResponse(ResponseConstant.SAVED_SUCCESSFULLY));
         return dataResponse;
     }
 
-    @RequestMapping(name = "updateComment", value = "/update/comment", method = RequestMethod.POST)
+//    @RequestMapping(name = "updateComment", value = "/update/comment", method = RequestMethod.POST)
+    @PutMapping(name = "updateComment" , value = "/update/comment")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<Object> updateComment(@RequestParam String id, @RequestBody CommentAddRequest commentAddRequest) throws NoSuchFieldException, IllegalAccessException {
         DataResponse<Object> dataResponse = new DataResponse<>();
@@ -40,7 +44,8 @@ public class CommentController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "getCommentById", value = "/{id}", method = RequestMethod.GET)
+//    @RequestMapping(name = "getCommentById", value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(name = "getCommentById" , value = "comment/{id}")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<CommentResponse> getCommentById(@PathVariable String id) {
         DataResponse<CommentResponse> dataResponse = new DataResponse<>();
@@ -50,7 +55,8 @@ public class CommentController {
     }
 
 
-    @RequestMapping(name = "getAllComment", value = "/get/all/comment", method = RequestMethod.GET)
+//    @RequestMapping(name = "getAllComment", value = "/all/comment", method = RequestMethod.GET)
+    @GetMapping(name = "getAllComment" , value = "/all/comment")
     @Access(levels = Role.ANONYMOUS)
     public ListResponse<CommentResponse> getAllComment() {
         ListResponse<CommentResponse> listResponse = new ListResponse<>();
@@ -60,7 +66,8 @@ public class CommentController {
     }
 
 
-    @RequestMapping(name = "deleteCommentById", value = "/delete/{id}", method = RequestMethod.POST)
+//    @RequestMapping(name = "deleteCommentById", value = "/delete/{id}", method = RequestMethod.POST)
+    @DeleteMapping(name = "deleteCommentById", value = "/delete/{id}")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<Object> deleteCommentById(@PathVariable String id) {
         DataResponse<Object> dataResponse = new DataResponse<>();

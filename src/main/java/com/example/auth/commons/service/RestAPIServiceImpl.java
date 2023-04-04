@@ -2,25 +2,24 @@ package com.example.auth.commons.service;
 
 import com.example.auth.commons.model.RestAPI;
 import com.example.auth.commons.repository.RestAPIRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-@Service
-public class RestAPIServiceImpl implements RestAPIService{
-    private  final RestAPIRepository restAPIRepository;
+@Repository
+class RestApiServiceImpl implements RestAPIService {
 
-    public RestAPIServiceImpl(RestAPIRepository restAPIRepository) {
-        this.restAPIRepository = restAPIRepository;
+    @Autowired
+    RestAPIRepository restApiRepository;
+
+    @Override
+    public List<RestAPI> getAll() {
+        return restApiRepository.findAllBy();
     }
 
     @Override
-    public List<RestAPI> getAllAuthAPIs() {
-        return restAPIRepository.findAllBy();
-    }
-
-    @Override
-    public boolean hasAccess(List<String> roles, String name) {
-        return restAPIRepository.existsByRolesInAndName(roles,name);
-
+    public boolean hasAccess(List<String> roles,String name) {
+        return restApiRepository.existsByRolesInAndName(roles,name);
     }
 }

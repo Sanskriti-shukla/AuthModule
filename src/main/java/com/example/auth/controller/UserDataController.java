@@ -22,11 +22,11 @@ public class UserDataController {
         this.userDataService = userDataService;
     }
 
-    @RequestMapping(name = "addUser", value = "/add", method = RequestMethod.POST)
+
+    @PostMapping(name = "addUser", value = "/add")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<UserDataResponse> addUser(@RequestBody UserAddRequest userAddRequest) {
         DataResponse<UserDataResponse> dataResponse = new DataResponse<>();
-
         dataResponse.setData(userDataService.addUser(userAddRequest));
         dataResponse.setStatus(Response.getOkResponse(ResponseConstant.SAVED_SUCCESSFULLY));
         return dataResponse;
@@ -34,7 +34,7 @@ public class UserDataController {
     }
 
 
-    @RequestMapping(name = "updateUser", value = "/update/user", method = RequestMethod.POST)
+    @PutMapping(name = "updateUser", value = "/update/user")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<Object> updateUser(@RequestBody UserAddRequest userAddRequest, @RequestParam String id) throws NoSuchFieldException, IllegalAccessException {
         DataResponse<Object> dataResponse = new DataResponse<>();
@@ -44,29 +44,31 @@ public class UserDataController {
     }
 
 
-    @RequestMapping(name = "getUserById", value = "/user/{id}", method = RequestMethod.GET)
+
+    @GetMapping(name = "getUserById", value = "user/{id}")
     @Access(levels = Role.ANONYMOUS)
-    public DataResponse<UserDataResponse> getUserById(@PathVariable String id) {
+    public DataResponse<UserDataResponse> getUserById(@RequestParam String id) {
         DataResponse<UserDataResponse> dataResponse = new DataResponse<>();
-        userDataService.getUserById(id);
+        dataResponse.setData(userDataService.getUserById(id));
         dataResponse.setStatus(Response.getOkResponse(ResponseConstant.OK));
         return dataResponse;
     }
 
-    @RequestMapping(name = "getAllUser", value = "/get/all/users", method = RequestMethod.GET)
+    @GetMapping(name = "getAllUser" , value = "/get/all/users")
     @Access(levels = Role.ANONYMOUS)
     public ListResponse<UserDataResponse> getAllUser() {
         ListResponse<UserDataResponse> listResponse = new ListResponse<>();
-        userDataService.getAllUser();
+        listResponse.setData(userDataService.getAllUser());
         listResponse.setStatus(Response.getOkResponse(ResponseConstant.OK));
         return listResponse;
     }
 
 
 
-    @RequestMapping(name = "deleteUser", value = "/delete/user", method = RequestMethod.POST)
+
+    @DeleteMapping(name = "deleteUser", value ="/delete/user/{id}")
     @Access(levels = Role.ANONYMOUS)
-    public DataResponse<Object> updateUser(@RequestParam String id) {
+    public DataResponse<Object> deleteUser(@PathVariable String id) {
         DataResponse<Object> dataResponse = new DataResponse<>();
         userDataService.deleteUser(id);
         dataResponse.setStatus(Response.getOkResponse(ResponseConstant.DELETED_SUCCESSFULLY));
@@ -74,4 +76,12 @@ public class UserDataController {
     }
 
 
+    @GetMapping(name = "getUserIdByEmail" , value = "/userid/email")
+    @Access(levels = Role.ANONYMOUS)
+    public DataResponse<String> getUserIdByEmail(@RequestParam String email){
+        DataResponse<String> dataResponse= new DataResponse<>();
+        dataResponse.setData(userDataService.getUserIdByEmail(email));
+        dataResponse.setStatus(Response.getOkResponse());
+        return  dataResponse;
+    }
 }

@@ -7,7 +7,6 @@ public class ExtendRelativePathProvider extends AbstractPathProvider {
     public static final String ROOT = "";
 
     public ExtendRelativePathProvider() {
-        System.out.println("Loading The Path Resolver");
     }
 
     @Override

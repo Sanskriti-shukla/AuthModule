@@ -14,7 +14,7 @@ import com.example.auth.model.Category;
 import com.example.auth.model.Item;
 import com.example.auth.repository.CategoryRepository;
 import com.example.auth.repository.ItemRepository;
-import com.google.api.client.repackaged.com.google.common.annotations.VisibleForTesting;
+import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.modelmapper.ModelMapper;
@@ -95,9 +95,7 @@ public class ItemServiceImpl implements ItemService {
     public ItemResponse getItemById(String id) {
 
         Item item = getById(id);
-
         ItemResponse itemResponse = modelMapper.map(item, ItemResponse.class);
-
         return itemResponse;
     }
 
@@ -105,13 +103,9 @@ public class ItemServiceImpl implements ItemService {
     public List<ItemResponse> getAllItems() {
 
         List<Item> items = itemRepository.findBySoftDeleteFalse();
-
         List<ItemResponse> itemResponses = new ArrayList<>();
-
         items.forEach(item -> {
-
             ItemResponse itemResponse = modelMapper.map(item, ItemResponse.class);
-
             itemResponses.add(itemResponse);
 
         });
@@ -122,9 +116,7 @@ public class ItemServiceImpl implements ItemService {
     public void deleteItemById(String id) {
 
         Item item = getById(id);
-
         item.setSoftDelete(true);
-
         itemRepository.save(item);
 
     }
@@ -133,16 +125,13 @@ public class ItemServiceImpl implements ItemService {
     public void setPrice(ItemAddRequest itemAddRequest, Item item) {
 
         item.setPrice(Double.parseDouble(new DecimalFormat("##.##").format(itemAddRequest.getPrice())));
-
         item.setDiscountInRupee((item.getPrice() * item.getQuantity() * item.getDiscountInPercent()) / 100);
-
         item.setTotalPrice(item.getPrice() * item.getQuantity() - item.getDiscountInRupee());
     }
 
 
     @Override
     public List<ItemAggregationResponse> getItemByAggregation() {
-
         return itemRepository.getItemByAggregation();
     }
     @Override
@@ -164,11 +153,8 @@ public class ItemServiceImpl implements ItemService {
     public void removeItems(String id) {
 
         List<Item> items = itemRepository.findByCategoryIdAndSoftDeleteFalse(id);
-
         if (!CollectionUtils.isEmpty(items)) {
-
             items.forEach(item -> {
-
                 item.setSoftDelete(true);
             });
             itemRepository.saveAll(items);
@@ -203,11 +189,8 @@ public class ItemServiceImpl implements ItemService {
         Item item = getById(id);
         if (item != null) {
             if (itemAddRequest.getQuantity() > 0) {
-
                 item.setQuantity(itemAddRequest.getQuantity());
-
                 item.setDiscountInRupee((item.getPrice() * item.getQuantity() * item.getDiscountInPercent()) / 100);
-
                 item.setTotalPrice(item.getPrice() * item.getQuantity() - item.getDiscountInRupee());
             }
             if (itemAddRequest.getItemName() != null) {
@@ -218,14 +201,10 @@ public class ItemServiceImpl implements ItemService {
                 setPrice(itemAddRequest, item);
             }
             if (itemAddRequest.getDiscountInPercent() > 0) {
-
                 item.setDiscountInPercent(itemAddRequest.getDiscountInPercent());
-
                 item.setDiscountInRupee((item.getPrice() * item.getQuantity() * item.getDiscountInPercent()) / 100);
-
                 item.setTotalPrice(item.getPrice() * item.getQuantity() - item.getDiscountInRupee());
             }
-
             itemRepository.save(item);
         }
     }

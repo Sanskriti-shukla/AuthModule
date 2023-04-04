@@ -43,7 +43,7 @@ public class PurchaseLogHistoryController {
         this.generalHelper = generalHelper;
     }
 
-    @RequestMapping(name = "addPurchaseLog", value = "/add", method = RequestMethod.POST)
+    @PostMapping(name = "addPurchaseLog", value = "/add")
     @Access (levels = Role.ADMIN)
     public DataResponse<PurchaseLogHistoryResponse> addPurchaseLog(@RequestBody PurchaseLogHistoryAddRequest purchaseLogHistoryAddRequest, @RequestParam String customerId, @RequestParam String itemName) {
         DataResponse<PurchaseLogHistoryResponse> dataResponse = new DataResponse<>();
@@ -52,7 +52,7 @@ public class PurchaseLogHistoryController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "updatePurchaseLogHistory", value = "/update/{id}", method = RequestMethod.POST)
+    @PutMapping(name = "updatePurchaseLogHistory", value = "/update/{id}")
     @Access (levels = Role.ADMIN)
     public DataResponse<Object> updatePurchaseLog(@RequestBody PurchaseLogHistoryAddRequest purchaseLogHistoryAddRequest, @RequestParam String id) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {
         DataResponse<Object> dataResponse = new DataResponse<>();
@@ -61,7 +61,7 @@ public class PurchaseLogHistoryController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "getPurchaseLogById", value = "/get/{id}", method = RequestMethod.GET)
+    @GetMapping(name = "getPurchaseLogById", value = "/get/{id}")
     @Access (levels = Role.ADMIN)
     public DataResponse<PurchaseLogHistoryResponse> getPurchaseLogById(@RequestParam String id) {
         DataResponse<PurchaseLogHistoryResponse> dataResponse = new DataResponse<>();
@@ -70,7 +70,7 @@ public class PurchaseLogHistoryController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "getAllPurchaseLog", value = "/get/all", method = RequestMethod.GET)
+    @GetMapping(name = "getAllPurchaseLog", value = "/get/all")
     @Access (levels = Role.ADMIN)
     public ListResponse<PurchaseLogHistoryResponse> getAllPurchaseLog() {
         ListResponse<PurchaseLogHistoryResponse> listResponse = new ListResponse<>();
@@ -79,7 +79,7 @@ public class PurchaseLogHistoryController {
         return listResponse;
     }
 
-    @RequestMapping(name = "deletePurchaseLogById", value = "/delete/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(name = "deletePurchaseLogById", value = "/delete/{id}")
     @Access (levels = Role.ADMIN)
     public DataResponse<Object> deletePurchaseLogById(@RequestParam String id) {
         DataResponse<Object> dataResponse = new DataResponse<>();
@@ -89,7 +89,7 @@ public class PurchaseLogHistoryController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "getAllPurchaseLogByPagination", value = "get/all/pagination", method = RequestMethod.POST)
+    @PostMapping(name = "getAllPurchaseLogByPagination", value = "get/all/pagination")
     @Access (levels = Role.ADMIN)
     public PageResponse<PurchaseLogHistoryResponse> getAllPurchaseLogByPagination(@RequestBody FilterSortRequest<PurchaseLogFilter, PurchaseLogSortBy> filterSortRequest) {
         PageResponse<PurchaseLogHistoryResponse> pageResponse = new PageResponse<>();
@@ -101,7 +101,7 @@ public class PurchaseLogHistoryController {
     }
 
 
-    @RequestMapping(name = "generatePdfFile", value = "/export-to-pdf", method = RequestMethod.POST)
+    @PostMapping(name = "generatePdfFile", value = "/export-to-pdf")
     @Access (levels = Role.ADMIN)
     public void generatePdfFile(HttpServletResponse response, @RequestParam String customerId) throws IOException {
         response.setContentType("application/pdf");
@@ -117,7 +117,7 @@ public class PurchaseLogHistoryController {
 
 
 
-    @RequestMapping(name = "uploadExcelFile", value = "/upload/excelFile", method = RequestMethod.POST)
+    @PostMapping(name = "uploadExcelFile", value = "/upload/excelFile")
     @Access (levels = Role.ADMIN)
     public DataResponse<Object> uploadFile(@RequestParam("file") MultipartFile file) {
         DataResponse<Object> dataResponse = new DataResponse<>();
@@ -130,7 +130,7 @@ public class PurchaseLogHistoryController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "getPurchaseLogByMonth", value = "/month", method = RequestMethod.POST)
+    @PostMapping(name = "getPurchaseLogByMonth", value = "/month")
     @Access (levels = Role.ANONYMOUS)
     public ResponseEntity<Resource> getPurchaseLogByMonth(@RequestBody  FilterSortRequest<PurchaseLogFilter, PurchaseLogSortBy> filterSortRequest) {
         PurchaseLogFilter  filter = filterSortRequest.getFilter();
@@ -151,7 +151,7 @@ public class PurchaseLogHistoryController {
 
 
 
-    @RequestMapping(name = "getItemPurchaseDetailsByMonthYear",value = "/month/Year", method = RequestMethod.POST)
+    @PostMapping(name = "getItemPurchaseDetailsByMonthYear",value = "/month/Year")
     @Access (levels = Role.ANONYMOUS)
     public ListResponse<PurchaseAggregationResponse> findItemPurchaseDetailsByMonthYear() throws JSONException {
         ListResponse<PurchaseAggregationResponse> listResponse= new ListResponse<>();
@@ -159,7 +159,7 @@ public class PurchaseLogHistoryController {
         listResponse.setStatus(Response.getOkResponse());
         return listResponse;
     }
-    @RequestMapping(name = "getPurchaseDetailsByCustomerName",value = "/customerName",method = RequestMethod.POST)
+    @PostMapping(name = "getPurchaseDetailsByCustomerName",value = "/customerName")
     @Access (levels = Role.ANONYMOUS)
    public ListResponse<ItemPurchaseAggregationResponse> getPurchaseDetailsByCustomerName(){
         ListResponse<ItemPurchaseAggregationResponse> listResponse= new ListResponse<>();
@@ -168,7 +168,7 @@ public class PurchaseLogHistoryController {
         return listResponse;
 
     }
-  @RequestMapping(name = "getPurchaseDetailsByCustomer",value = "/getByCustomerName",method = RequestMethod.POST)
+  @PostMapping(name = "getPurchaseDetailsByCustomer",value = "/getByCustomerName")
     @Access (levels = Role.ANONYMOUS)
    public ResponseEntity<Resource> getPurchaseDetailsByCustomerName(@RequestBody  FilterSortRequest<PurchaseLogFilter, PurchaseLogSortBy> filterSortRequest)  {
       PurchaseLogFilter  filter = filterSortRequest.getFilter();
@@ -186,7 +186,7 @@ public class PurchaseLogHistoryController {
     }
 
 
-    @RequestMapping(name = "getByMonthAndYear",value = "/monthYear", method = RequestMethod.POST)
+    @PostMapping(name = "getByMonthAndYear",value = "/monthYear")
     @Access (levels = Role.ANONYMOUS)
     public PageResponse<GetByMonthAndYear> getByMonthAndYear(@RequestBody FilterSortRequest<PurchaseLogFilter, PurchaseLogSortBy> filterSortRequest,MainDateFilter mainDateFilter ) throws JSONException {
         PageResponse<GetByMonthAndYear> pageResponse = new PageResponse<>();

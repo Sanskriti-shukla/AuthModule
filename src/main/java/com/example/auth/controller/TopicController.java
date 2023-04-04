@@ -25,7 +25,6 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("topics")
 public class TopicController {
 
     private final TopicService topicService;
@@ -36,7 +35,8 @@ public class TopicController {
         this.generalHelper = generalHelper;
     }
 
-    @RequestMapping(name = "addTopic", value = "/add", method = RequestMethod.POST)
+//    @RequestMapping(name = "addTopic", value = "/add", method = RequestMethod.POST)
+    @PostMapping(name = "addTopic" , value = "/topic")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<TopicResponse> addTopic(@RequestParam String stockId, @RequestParam String userId, @RequestBody TopicAddRequest topicAddRequest) {
         DataResponse<TopicResponse> dataResponse = new DataResponse<>();
@@ -45,7 +45,8 @@ public class TopicController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "updateTopic", value = "/update/topic", method = RequestMethod.POST)
+//    @RequestMapping(name = "updateTopic", value = "/update/topic", method = RequestMethod.POST)
+    @PutMapping(name = "updateTopic" , value = "/update/topic")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<Object> updateTopic(@RequestParam String id, @RequestBody TopicAddRequest topicAddRequest) throws NoSuchFieldException, IllegalAccessException {
         DataResponse<Object> dataResponse = new DataResponse<>();
@@ -54,7 +55,8 @@ public class TopicController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "getTopicById", value = "/{id}", method = RequestMethod.GET)
+//    @RequestMapping(name = "getTopicById", value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(name = "getTopicById" , value = "/topic/{id}")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<TopicResponse> getTopicById(@RequestParam String id) {
         DataResponse<TopicResponse> dataResponse = new DataResponse<>();
@@ -63,7 +65,8 @@ public class TopicController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "getAllTopic", value = "/get/all/topic", method = RequestMethod.GET)
+//    @RequestMapping(name = "getAllTopic", value = "/get/all/topic", method = RequestMethod.GET)
+    @GetMapping(name = "getAllTopic" , value = "/get/all/topic")
     @Access(levels = Role.ANONYMOUS)
     public ListResponse<TopicResponse> getAllTopic() {
         ListResponse<TopicResponse> listResponse = new ListResponse<>();
@@ -71,8 +74,9 @@ public class TopicController {
         listResponse.setStatus(Response.getOkResponse(ResponseConstant.OK));
         return listResponse;
     }
-
-    @RequestMapping(name = "deleteTopicById", value = "/delete/{id}", method = RequestMethod.POST)
+//
+//    @RequestMapping(name = "deleteTopicById", value = "/delete/{id}", method = RequestMethod.POST)
+    @DeleteMapping(name = "deleteTopicById", value = "/delete/{id}")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<Object> deleteTopicById(@RequestParam String id) {
         DataResponse<Object> dataResponse = new DataResponse<>();
@@ -80,9 +84,11 @@ public class TopicController {
         dataResponse.setStatus(Response.getOkResponse(ResponseConstant.DELETED_SUCCESSFULLY));
         return dataResponse;
     }
+//
+//
+//    @RequestMapping(name = "getAllTopicByPagination", value = "/get/all/pagination", method = RequestMethod.POST)
 
-
-    @RequestMapping(name = "getAllTopicByPagination", value = "/get/all/pagination", method = RequestMethod.POST)
+    @PostMapping(name = "getAllTopicByPagination" , value = "/get/Alltopic")
     @Access(levels = Role.ANONYMOUS)
     public PageResponse<TopicResponse> getAllTopicByPagination(@RequestBody FilterSortRequest<TopicFilter, TopicSortBy> filterSortRequest) {
         PageResponse<TopicResponse> pageResponse = new PageResponse<>();
@@ -92,10 +98,10 @@ public class TopicController {
         pageResponse.setStatus(Response.getOkResponse(ResponseConstant.OK));
         return pageResponse;
     }
-
-
-    @RequestMapping(name = "getTopicIdByTitleAndDate", value = "/topicId/title/date", method = RequestMethod.POST
-    )
+//
+//
+//    @RequestMapping(name = "getTopicIdByTitleAndDate", value = "/topicId/title/date", method = RequestMethod.POST)
+    @PostMapping(name = "getTopicIdByTitleAndDate", value = "/topicId/title/date")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<String> getTopicIdByTitleAndDate(@RequestBody Title title) throws JSONException, ParseException {
         DataResponse<String> dataResponse = new DataResponse<>();

@@ -4,7 +4,7 @@ package com.example.auth.commons.decorator;
 import com.google.common.io.Resources;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;

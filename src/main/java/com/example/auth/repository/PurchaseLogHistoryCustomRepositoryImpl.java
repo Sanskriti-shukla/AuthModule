@@ -25,6 +25,7 @@ import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.SortOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
@@ -32,6 +33,7 @@ import java.util.*;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
 @Slf4j
+@Repository
 public class PurchaseLogHistoryCustomRepositoryImpl implements PurchaseLogHistoryCustomRepository {
 
     private final MongoTemplate mongoTemplate;

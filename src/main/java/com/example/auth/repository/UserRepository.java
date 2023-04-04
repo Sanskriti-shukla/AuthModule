@@ -12,6 +12,7 @@ public interface UserRepository extends MongoRepository<User,String>, UserCustom
 
     Optional<User> findByIdAndSoftDeleteIsFalse(String id);
 
+
     List<User> findAllBySoftDeleteFalse();
 
 }

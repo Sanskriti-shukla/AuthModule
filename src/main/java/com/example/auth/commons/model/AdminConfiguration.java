@@ -47,10 +47,15 @@ public class AdminConfiguration {
 
 
     public AdminConfiguration() {
-        this.from = "roynilus@outlook.com";
-        this.username = "roynilus@outlook.com";
-        this.password = "!@23Abcd";
-        this.host = "smtp.office365.com";
+        this.from = "sanskrityshukla4@gmail.com";
+        this.username = "sanskrityshukla4@gmail.com";
+        this.password = "rjincobhlxneflrt";
+//        this.from = "stockpile.team@gmail.com";
+//        this.username = "stockpile.team@gmail.com";
+//        this.password="kqtcbqhukyvrcybb";
+        this.host = "smtp.gmail.com";
+        //for outlook
+//        this.host = "smtp.office365.com";
         this.port = "587";
         this.smptAuth = true;
         this.starttls = true;
@@ -87,7 +92,7 @@ public class AdminConfiguration {
 
     private Set<String> getTechAdminEmails() {
         Set<String> emails = new HashSet<>();
-        emails.add("sanskriti.s@techroversolutions.com");
+        emails.add("sanskrityshukla4@gmail.com");
         return emails;
     }
 }

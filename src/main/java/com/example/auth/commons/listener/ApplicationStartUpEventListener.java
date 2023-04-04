@@ -73,8 +73,8 @@ public class ApplicationStartUpEventListener {
             saveIfNotExits(Utils.getAllMethodNames(StockController.class));
             saveIfNotExits(Utils.getAllMethodNames(TopicController.class));
             saveIfNotExits(Utils.getAllMethodNames(UserDataController.class));
-            saveIfNotExits(Utils.getAllMethodNames(UserInfoController.class));
             saveIfNotExits(Utils.getAllMethodNames(PostController.class));
+//            saveIfNotExits(Utils.getAllMethodNames(NotificationController.class));
         }
 
         Date currentDate = new Date();
@@ -111,27 +111,6 @@ public class ApplicationStartUpEventListener {
             }
         });
     }
-    /*
-    private void scheduleCronJobs(AdminConfiguration configuration){
-        try {
-            schedulerService.scheduleCronJob(ModuleCheckScheduleJob.class,configuration.getModuleCheckCronString(), "check_module",null,null);
-            List<ComplianceHistory> complianceHistories = historyRepository.findByRunningTrueAndSoftDeleteIsFalse();
-            for (ComplianceHistory history : complianceHistories) {
-                portfolioService.saveHistory(history);
-            }
-            //TODO NB Need to stop resident cnc run after fetch data
-            schedulerService.scheduleCronJob(ResidentRefreshScheduleJob.class,"0 0 6 1/1 * ? *", "resident_update",null,null);
-            //TODO NB Need to stop resident cnc run after fetch data
-            schedulerService.scheduleCronJob(ResidentPolicyStateUpdateScheduleJob.class,"0 0 6 1/1 * ? *", "resident_policy_state_update",null,null);
-            //Monthly scheduler like 24th
-            schedulerService.scheduleCronJob(MonthlyComplianceScheduleJob.class,"0 0 6 1/1 * ? *", "monthly_compliance_calculation",null,null);
-//            residentService.calculateRenterChargeDaily();
-//            schedulerService.scheduleCronJob(ResidentRenterChargeScheduleJob.class,"0 0 0/1 1/1 * ? *", "resident_renter_charge_calculate",null,null);
-            //schedulerService.scheduleOnDate(CommunityInactiveScheduleJob.class,date, "community_inactive_schedule_job");
-            log.info("Scheduler job added");
-        } catch (SchedulerException e) {
-            log.error("Error occurred while creating scheduler job : {}",e.getMessage());
-        }
-    }*/
+
 }
 

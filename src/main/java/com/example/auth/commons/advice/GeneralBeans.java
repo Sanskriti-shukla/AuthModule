@@ -4,11 +4,16 @@ import com.example.auth.commons.decorator.GeneralHelper;
 import com.example.auth.commons.decorator.RequestSession;
 import com.example.auth.commons.helper.UserHelper;
 import com.example.auth.commons.decorator.Response;
+import com.example.auth.decorator.ImageUrl;
 import com.example.auth.decorator.MainDateFilter;
 import com.example.auth.model.CanvasjsChartData;
 import com.example.auth.model.PurchaseLogHistory;
+import com.example.auth.stockPile.model.Notification;
+import com.example.auth.stockPile.model.Reaction;
 import com.example.auth.stockPile.model.Subscriber;
 import com.example.auth.stockPile.model.UserData;
+
+
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
@@ -18,11 +23,6 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 @Configuration
     public class GeneralBeans {
-//        @Value("${trs.defaults.prefetchCount}")
-//        String prefetchCount;
-//
-//        @Value("${trs.defaults.concurrentConsumers}")
-//        String concurrentConsumers;
 
 
 
@@ -75,6 +75,11 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
         }
 
         @Bean
+        public Reaction getReaction(){
+            return  new Reaction();
+        }
+
+        @Bean
         public CanvasjsChartData getCanvasjsChartData()
         {
             return new CanvasjsChartData();
@@ -96,6 +101,17 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
         public PurchaseLogHistory purchaseLogHistory(){
             return new PurchaseLogHistory();
        }
+
+
+       @Bean
+    public Notification getNotification(){
+            return  new Notification();
+       }
+
+    @Bean
+    public ImageUrl imageUrl() {
+        return ImageUrl.GOOGLE_IMG_URL; // Assuming DEFAULT is one of the enum values
+    }
     }
 
 

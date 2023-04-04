@@ -15,4 +15,6 @@ public interface CommentRepository extends MongoRepository<Comment,String> {
     Optional<Comment> getByIdAndSoftDeleteIsFalse(String id);
 
     List<Comment> findAllBySoftDeleteFalse();
+
+    List<Comment> findAllByPostAndSoftDeleteIsFalse(String postId);
 }

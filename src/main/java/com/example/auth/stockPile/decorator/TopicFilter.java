@@ -18,7 +18,6 @@ public class TopicFilter {
     @JsonIgnore
     boolean softDelete;
 
-
     public String getSearch(){
         if (search!=null){
             return search;

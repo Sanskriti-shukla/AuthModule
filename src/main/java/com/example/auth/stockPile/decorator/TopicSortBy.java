@@ -13,7 +13,6 @@ public enum TopicSortBy {
 
     @JsonIgnore
     private String value;
-
     TopicSortBy(String value) {
         this.value=value;
     }

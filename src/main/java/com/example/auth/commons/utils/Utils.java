@@ -17,7 +17,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.activation.*;
 import javax.mail.*;
@@ -74,8 +74,6 @@ public class Utils {
 
         String actualString = new String(pass);
 
-        System.out.println(actualString);
-
         return actualString;
     }
 
@@ -91,35 +89,36 @@ public class Utils {
     }
 
     public static List<RestAPI> getAllMethodNames(Class className) {
-
         Method[] allMethods = className.getDeclaredMethods();
 
         List<RestAPI> apis = new ArrayList<>();
-
         for (Method method : allMethods) {
-
             if (Modifier.isPublic(method.getModifiers())) {
-
                 Access a = method.getAnnotation(Access.class);
-
-                RequestMapping rm = method.getAnnotation(RequestMapping.class);
-
+//                RequestMapping rm = method.getAnnotation(RequestMapping.class);
+                String restApiName = null;
+                if (method.isAnnotationPresent(GetMapping.class)) {
+                    GetMapping getMapping = method.getAnnotation(GetMapping.class);
+                    restApiName = getMapping.name();
+                }else if (method.isAnnotationPresent(PostMapping.class)) {
+                    PostMapping postMapping = method.getAnnotation(PostMapping.class);
+                    restApiName = postMapping.name();
+                } else if (method.isAnnotationPresent(PutMapping.class)) {
+                    PutMapping putMapping = method.getAnnotation(PutMapping.class);
+                    restApiName = putMapping.name();
+                } else if (method.isAnnotationPresent(DeleteMapping.class)) {
+                    DeleteMapping deleteMapping = method.getAnnotation(DeleteMapping.class);
+                    restApiName = deleteMapping.name();
+                }
                 if (a != null) {
-
                     List<String> authList = new ArrayList<>(Arrays.asList(a.levels()))
-
                             .stream()
-
                             .map(Enum::toString)
-
                             .collect(Collectors.toList());
 
                     RestAPI api = new RestAPI();
-
-                    api.setName(rm.name());
-
+                    api.setName(restApiName);
                     api.setRoles(authList);
-
                     apis.add(api);
                 }
             }
@@ -139,23 +138,16 @@ public class Utils {
             AdminConfiguration adminConfiguration = configurationService.getConfiguration();
 
             String from = adminConfiguration.getFrom();
-
             Properties props = new Properties();
-
             props.put("mail.smtp.auth", adminConfiguration.isSmptAuth());//true
-
             props.put("mail.smtp.starttls.enable", adminConfiguration.isStarttls());//true
-
             //props.put("mail.smtp.ssl.enable", "true");
-
             props.put("mail.smtp.host", adminConfiguration.getHost());//smtp.office365.com
-
             props.put("mail.smtp.port", adminConfiguration.getPort());//587
 
             // Get the Session object.
             Session session = Session.getInstance(props, new Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
-
                     return new PasswordAuthentication(adminConfiguration.getUsername(), adminConfiguration.getPassword());
                 }
             });
@@ -163,7 +155,6 @@ public class Utils {
             try {
                 // Create a default MimeMessage object.
                 MimeMessage message = new MimeMessage(session);
-
                 MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
 
                 // Set From: header field of the header.
@@ -173,19 +164,13 @@ public class Utils {
                 helper.setTo(emailModel.getTo());
 
                 if (emailModel.getCc() != null && emailModel.getCc().size() != 0) {
-
                     String[] cc = new String[emailModel.getCc().size()];
-
                     emailModel.getCc().toArray(cc);
-
                     helper.setCc(cc);
                 }
                 if (emailModel.getBcc() != null && emailModel.getBcc().size() != 0) {
-
                     String[] bcc = new String[emailModel.getBcc().size()];
-
                     emailModel.getBcc().toArray(bcc);
-
                     helper.setBcc(bcc);
                 }
                 //file empty not of email model
@@ -193,23 +178,14 @@ public class Utils {
                 if (emailModel.getFile() != null) {
                     try {
                         Multipart multipart = new MimeMultipart();
-
                         BodyPart messageBodyPart = new MimeBodyPart();
-
                         String file = emailModel.getFile().getPath();
-
                         System.out.println("file" + file);
-
                         DataSource source = new FileDataSource(file);
-
                         messageBodyPart.setDataHandler(new DataHandler(source));
-
                         messageBodyPart.setFileName(emailModel.getFile().getName());
-
                         multipart.addBodyPart(messageBodyPart);
-
                         message.setContent(multipart);
-
                         log.info("email sending start");
 
                     } catch (MessagingException e) {
@@ -240,7 +216,6 @@ public class Utils {
 
                     try {
                         Transport.send(message);
-
                         log.info("email sent successfully");
 
                     } catch (MessagingException e) {

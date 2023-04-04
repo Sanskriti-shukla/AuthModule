@@ -1,8 +1,9 @@
 package com.example.auth.stockPile.service;
 
+import com.example.auth.decorator.CommentsResponse;
 import com.example.auth.decorator.pagination.FilterSortRequest;
 import com.example.auth.stockPile.decorator.*;
-import com.example.auth.stockPile.model.Post;
+import com.example.auth.stockPile.model.ReactionType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -22,5 +23,14 @@ public interface PostService {
 
     Page<PostResponse> getAllPostByPagination(PostFilter filter, FilterSortRequest.SortRequest<PostSortBy> sort, PageRequest pagination);
 
-    List<Post> getAllPostByTopicId(String topicId);
+    List<PostResponse> getAllPostByTopicId(String topicId);
+
+
+    void addReaction(ReactionType reactionType, ReactionAddRequest reactionAddRequest);
+
+    List<ReactionResponse> getAllReactionByPostId(String postId);
+
+    List<CommentsResponse> getAllCommentByPostId(String postId);
+
+    void deleteReaction(ReactionAddRequest reactionAddRequest);
 }

@@ -20,7 +20,6 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -56,25 +55,15 @@ public class Interceptor extends HandlerInterceptorAdapter implements  HandlerIn
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        /*logger.info("PathInfo : {} ",request.getPathInfo());
-        logger.info("PathInfo : {} ",request.getPathTranslated());
-        logger.info("PathInfo : {} ",request.getServletPath());
-        logger.info("Headers : {} ",Collections.list(request.getHeaderNames()).stream().map(header-> header+":"+request.getHeader(header)+"\n").collect(Collectors.toSet()));
-        logger.info("Get Context Path : {} ",request.getContextPath());*/
-        // If This is Resource Request then always return true
+
         if (handler instanceof HttpRequestHandler) {
             return true;
         }
-        /*String timezone = request.getHeader("timezone");
-        if(StringUtils.isEmpty(timezone)){
-            timezone = timezoneValue;
-        }
-        requestSession.setTimezone(timezone);*/
         HandlerMethod method = (HandlerMethod) handler;
         RequestMapping rm = method.getMethodAnnotation(RequestMapping.class);
         String jwtToken = request.getHeader(CustomHTTPHeaders.TOKEN.toString());
         // IF ANONYMOUS Role then Pass the role
-        if (restAPIService.hasAccess(Collections.singletonList(Role.ANONYMOUS.toString()),method.getMethod().getName())) {
+        if (restAPIService.hasAccess(Collections.singletonList(Role.ANONYMOUS.toString()),rm.name())) {
             try {
                 if (jwtToken != null) {
                     JWTUser user = tokenUtil.getJwtUserFromToken(jwtToken);
@@ -101,7 +90,7 @@ public class Interceptor extends HandlerInterceptorAdapter implements  HandlerIn
         try {
             user = tokenUtil.getJwtUserFromToken(jwtToken);
             log.info("user"+user);
-            if (!restAPIService.hasAccess(user.getRole(),(method.getMethod().getName()))) {
+            if (!restAPIService.hasAccess(user.getRole(),rm.name())) {
                 log.error("Role is not allowed");
                 Response errorResponse = response1.getResponse(HttpStatus.FORBIDDEN,
                         MessageConstant.ROLE_NOT_ALLOWED, MessageConstant.ROLE_NOT_ALLOWED);

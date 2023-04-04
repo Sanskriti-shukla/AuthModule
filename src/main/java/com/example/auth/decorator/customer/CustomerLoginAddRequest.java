@@ -15,5 +15,4 @@ public class CustomerLoginAddRequest {
     String email;
     String password;
 
-
 }

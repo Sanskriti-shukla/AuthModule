@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface UserService {
-    UserResponse addUser(UserAddRequest userAddRequest);
+    UserResponse addUser(UsersAddRequest userAddRequest);
 
     List<UserResponse> getAllUser();
 
@@ -46,10 +46,12 @@ public interface UserService {
 
     Page<UserEligibilityAggregation> getUserEligibilityByAge(UserFilterData filter, FilterSortRequest.SortRequest<UserSortBy> sort, PageRequest pagination) throws JSONException;
 
-    void updateUser(String id, UserAddRequest userAddRequest);
+    void updateUser(String id, UsersAddRequest userAddRequest);
 
 
     MonthAndYear userChartApi(int year);
+
+
 }
 
 

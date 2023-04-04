@@ -1,12 +1,10 @@
 package com.example.auth.stockPile.service;
 
 import com.example.auth.decorator.pagination.FilterSortRequest;
-import com.example.auth.stockPile.decorator.StockAddRequest;
+import com.example.auth.stockPile.decorator.*;
 
-import com.example.auth.stockPile.decorator.StockFilter;
-import com.example.auth.stockPile.decorator.StockResponse;
-import com.example.auth.stockPile.decorator.StockSortBy;
 import com.example.auth.stockPile.model.Stock;
+import com.example.auth.stockPile.model.Subscribe;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -29,9 +27,12 @@ public interface StockService {
 
     Page<StockResponse> getAllStockByPagination(StockFilter filter, FilterSortRequest.SortRequest<StockSortBy> sort, PageRequest pagination);
 
-    String getStockSubscription(String symbol, String userId);
+    String subscribeUnsubscribeStock(String symbol, String userId, Subscribe subscribe);
 
     Map<String, List<Stock>> allSubscribers();
 
 
+    StockResponse getStockBySymbol(String symbol);
+
+    List<StockSubscribed> subscribedStocksByUserId(String userId);
 }

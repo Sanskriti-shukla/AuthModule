@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse addUser(UserAddRequest userAddRequest) {
+    public UserResponse addUser(UsersAddRequest userAddRequest) {
 
         User user = modelMapper.map(userAddRequest, User.class);
 
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(String id, UserAddRequest userAddRequest) {
+    public void updateUser(String id, UsersAddRequest userAddRequest) {
 
         User user1 = getUserModel(id);
 
@@ -90,11 +90,8 @@ public class UserServiceImpl implements UserService {
     public MonthAndYear userChartApi(int year) {
 
         MonthAndYear monthAndYear = new MonthAndYear();
-
         List<UserDateDetails> userDateDetails = new ArrayList<>(userRepository.userChartApi(year));
-
         HashMap<String, Double> month = new LinkedHashMap<>();
-
         Set<String> title = new LinkedHashSet<>();
         month.put("JAN", 1.0);
         month.put("FEB", 2.0);
@@ -121,40 +118,28 @@ public class UserServiceImpl implements UserService {
             boolean exist = userDateDetails.stream().anyMatch(e -> e.getMonth() == entry.getValue());
             if (!exist) {
                 UserDateDetails userDateDetails1 = new UserDateDetails();
-
                 userDateDetails1.setMonth(entry.getValue());
-
                 userDateDetails1.setYear(year);
-
                 userDateDetails1.setCount(0.0);
-
                 userDateDetails.add(userDateDetails1);
             }
         }
         userDateDetails.sort(Comparator.comparing(UserDateDetails::getMonth));
-
         monthAndYear.setUserDateDetails(userDateDetails);
-
         monthAndYear.setTitle(title);
-
         monthAndYear.setTotalCount(totalCount);
-
         return monthAndYear;
     }
-
 
 
     @Override
     public List<UserResponse> getAllUser() {
 
         List<User> users = userRepository.findAllBySoftDeleteFalse();
-
         List<UserResponse> userResponseList = new ArrayList<>();
 
         users.forEach(user -> {
-
             UserResponse userResponse1 = modelMapper.map(user, UserResponse.class);
-
             userResponseList.add(userResponse1);
         });
 
@@ -178,13 +163,9 @@ public class UserServiceImpl implements UserService {
     public UserResponse getToken(String id)  {
 
         User user = getUserModel(id);
-
         UserResponse userResponse = new UserResponse();
-
         userResponse.setRole(user.getRole());
-
         JWTUser jwtUser = new JWTUser(id, Collections.singletonList(userResponse.getRole().toString()));
-
         String token = jwtTokenUtil.generateToken(jwtUser);
 
         try {
@@ -194,9 +175,7 @@ public class UserServiceImpl implements UserService {
         }
 
         userResponse.setToken(token);
-
         userResponse.setId(user.getId());
-
         return userResponse;
     }
 
@@ -204,7 +183,6 @@ public class UserServiceImpl implements UserService {
     public String getIdFromToken(String token) {
 
         String id = jwtTokenUtil.getUserIdFromToken(token);
-
         boolean exist = userRepository.existsById(id);
 
         if (exist) {
@@ -350,7 +328,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByIdAndSoftDeleteIsFalse(id).orElseThrow(() -> new NotFoundException(MessageConstant.USER_ID_NOT_FOUND));
     }
 
-    public void update(String id, UserAddRequest userAddRequest) {
+
+
+    public void update(String id, UsersAddRequest userAddRequest) {
         User user = getUserModel(id);
         if (userAddRequest.getFirstName() != null) {
             user.setFirstName(userAddRequest.getFirstName());

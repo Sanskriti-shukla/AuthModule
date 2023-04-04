@@ -4,6 +4,7 @@ package com.example.auth.stockPile.model;
 import com.example.auth.commons.Access;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -16,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "stock_info")
+@Builder
 public class Stock {
 
     @Id

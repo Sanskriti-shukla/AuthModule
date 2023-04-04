@@ -21,7 +21,6 @@ import com.example.auth.model.*;
 import com.example.auth.repository.CustomerRepository;
 import com.example.auth.repository.ItemRepository;
 import com.example.auth.repository.PurchaseLogHistoryRepository;
-import com.google.api.client.repackaged.com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -89,7 +88,7 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
 
             findDiscountInRupee(purchaseLogHistory, itemName);
 
-            purchaseLogHistory.setDate(currentDate());
+//            purchaseLogHistory.setDate(currentDate());
 
             PurchaseLogHistoryResponse purchaseLogHistoryResponse = modelMapper.map(purchaseLogHistory, PurchaseLogHistoryResponse.class);
 
@@ -105,13 +104,6 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
 
     }
 
-    @VisibleForTesting
-    Item getQuantity() {
-        Item item = new Item();
-        item.getQuantity();
-        return item;
-    }
-
     public void setItemTotalPrice(String itemName, PurchaseLogHistory purchaseLogHistory) {
 
         Item item = itemRepository.findByItemNameAndSoftDeleteIsFalse(itemName);
@@ -125,10 +117,10 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
         itemRepository.save(item);
     }
 
-    @VisibleForTesting
-    Date currentDate() {
-        return new Date();
-    }
+//    @VisibleForTesting
+//    Date currentDate() {
+//        return new Date();
+//    }
 
     @Override
     public void updatePurchaseLog(PurchaseLogHistoryAddRequest purchaseLogHistoryAddRequest, String id) {
@@ -311,20 +303,20 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
 
         MonthConfig monthConfig = new MonthConfig();
 
-        mainDateFilter = getMainDateFilter(monthConfig, filter);
+//        mainDateFilter = getMainDateFilter(monthConfig, filter);
 
         return purchaseLogHistoryRepository.getByMonthAndYear(filter, sort, pagination, mainDateFilter);
     }
 
 
-    @VisibleForTesting
-    public MainDateFilter getMainDateFilter(MonthConfig monthConfig, PurchaseLogFilter filter) {
-
-        List<PurchaseLogHistoryFilter> dateFilters = new LinkedList<>(getDateFilters(monthConfig, filter));
-
-        return MainDateFilter.builder().dateFilters(dateFilters).build();
-
-    }
+//    @VisibleForTesting
+//    public MainDateFilter getMainDateFilter(MonthConfig monthConfig, PurchaseLogFilter filter) {
+//
+//        List<PurchaseLogHistoryFilter> dateFilters = new LinkedList<>(getDateFilters(monthConfig, filter));
+//
+//        return MainDateFilter.builder().dateFilters(dateFilters).build();
+//
+//    }
 
 
     private List<PurchaseLogHistoryFilter> getDateFilters(MonthConfig monthConfig, PurchaseLogFilter filter) {

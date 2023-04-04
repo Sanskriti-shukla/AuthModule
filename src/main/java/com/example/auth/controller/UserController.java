@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/users")
+//@RequestMapping("/users")
 
 public class UserController {
     private final UserService userService;
@@ -36,9 +36,9 @@ public class UserController {
         this.generalHelper = generalHelper;
     }
 
-    @RequestMapping(name = "addUser", value = "/add", method = RequestMethod.POST)
+    @PostMapping(name = "addUser", value = "/addUser")
     @Access(levels = Role.ANONYMOUS)
-    public DataResponse<UserResponse> addUser(@RequestBody UserAddRequest userAddRequest) {
+    public DataResponse<UserResponse> addUser(@RequestBody UsersAddRequest userAddRequest) {
         DataResponse<UserResponse> dataResponse = new DataResponse<>();
         dataResponse.setData(userService.addUser(userAddRequest));
         dataResponse.setStatus(Response.getOkResponse(ResponseConstant.SAVED_SUCCESSFULLY));
@@ -46,9 +46,9 @@ public class UserController {
 
     }
 
-    @RequestMapping(name = "updateUser", value = "/update", method = RequestMethod.POST)
+    @PutMapping(name = "updateUser", value = "/update")
     @Access(levels = Role.ADMIN)
-    public DataResponse<UserResponse> updateUser(@RequestParam String id, @RequestBody UserAddRequest userAddRequest) {
+    public DataResponse<UserResponse> updateUser(@RequestParam String id, @RequestBody UsersAddRequest userAddRequest) {
         DataResponse<UserResponse> dataResponse = new DataResponse<>();
         userService.updateUser(id, userAddRequest);
         dataResponse.setStatus(Response.getOkResponse(ResponseConstant.UPDATED_SUCCESSFULLY));
@@ -56,7 +56,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(name = "getAllUser", value = "/getAll", method = RequestMethod.GET)
+    @GetMapping(name = "getAllUser", value = "getAll")
     @Access(levels = Role.ANONYMOUS)
     public ListResponse<UserResponse> getAllUser() {
         ListResponse<UserResponse> listResponse = new ListResponse<>();
@@ -66,7 +66,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(name = "getUserById", value = "/user/{id}", method = RequestMethod.POST)
+    @GetMapping(name = "getUserById", value = "user/id")
     @Access(levels = {Role.ADMIN})
     public DataResponse<UserResponse> getUserById(@PathVariable String id) {
         DataResponse<UserResponse> dataResponse = new DataResponse<>();
@@ -75,7 +75,8 @@ public class UserController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "deleteUser", value = "/delete/{id}", method = RequestMethod.DELETE)
+
+    @DeleteMapping(name = "deleteUser", value = "deleteUser/{id}")
     @Access(levels = Role.ADMIN)
     public DataResponse<Object> deleteUser(@PathVariable String id) {
         DataResponse<Object> dataResponse = new DataResponse<>();
@@ -84,7 +85,7 @@ public class UserController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "getUserByAge", value = "/age", method = RequestMethod.POST)
+    @PostMapping(name = "getUserByAge", value = "/user/age")
     @Access(levels = Role.ADMIN)
     public ListResponse<UserResponse> getUserByAge(@RequestBody UserFilter userFilter) {
         ListResponse<UserResponse> listResponse = new ListResponse<>();
@@ -93,7 +94,7 @@ public class UserController {
         return listResponse;
     }
 
-    @RequestMapping(name = "getUserBySalaryAggregation", value = "/salary", method = RequestMethod.POST)
+    @PostMapping(name = "getUserBySalaryAggregation", value = "/users/salary")
     @Access(levels = Role.ADMIN)
     public ListResponse<UserAggregationResponse> getUserBySalary(@RequestBody UserFilter userFilter) {
         ListResponse<UserAggregationResponse> listResponse = new ListResponse<>();
@@ -103,7 +104,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(name = "addResult", value = "/addResult/{id}", method = RequestMethod.POST)
+    @PostMapping(name = "addResult", value = "/addResult/{id}")
     @Access(levels = {Role.ADMIN})
     public DataResponse<UserResponse> addResult(@PathVariable String id, @RequestBody Result result) {
         DataResponse<UserResponse> dataResponse = new DataResponse<>();
@@ -112,7 +113,9 @@ public class UserController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "getBySpi", value = "/spi", method = RequestMethod.GET)
+
+    @GetMapping(name = "getBySpi", value = "/spi")
+    @Access(levels = Role.ANONYMOUS)
     public ListResponse<UserSpiResponse> getBySpi(@RequestParam double spi) {
         ListResponse<UserSpiResponse> dataResponse = new ListResponse<>();
         dataResponse.setData(resultService.getBySpi(spi));
@@ -120,7 +123,7 @@ public class UserController {
         return dataResponse;
     }
 
-    @RequestMapping(name = "getAllUserByPagination", value = "get/all/pagination", method = RequestMethod.POST)
+    @PostMapping(name = "getAllUserByPagination", value = "/allUsers/pagination")
     @Access(levels = Role.ADMIN)
     public PageResponse<UserResponse> getAllUserByPagination(@RequestBody FilterSortRequest<UserFilterData, UserSortBy> filterSortRequest) {
         PageResponse<UserResponse> pageResponse = new PageResponse<>();
@@ -130,7 +133,7 @@ public class UserController {
         return pageResponse;
     }
 
-    @RequestMapping(name = "getUserByMaxSpi", value = "/get{id}", method = RequestMethod.POST)
+    @PostMapping(name = "getUserByMaxSpi", value = "/getUserMaxSpi/{id}")
     @Access(levels = Role.ADMIN)
     public ListResponse<MaxSpiResponse> getUserByMaxSpi(@PathVariable String id) {
         ListResponse<MaxSpiResponse> listResponse = new ListResponse<>();
@@ -139,151 +142,95 @@ public class UserController {
         return listResponse;
     }
 
-    @RequestMapping(name = "getToken", value = "/get/token", method = RequestMethod.GET)
+    @GetMapping(name = "getToken", value = "/getToken/{id}")
     @Access(levels = Role.ANONYMOUS)
-    public TokenResponse<UserResponse> getToken(@RequestParam String id) {
+    public TokenResponse<UserResponse> getToken(@PathVariable String id) {
         TokenResponse<UserResponse> tokenResponse = new TokenResponse<>();
         tokenResponse.setData(userService.getToken(id));
         tokenResponse.setStatus(Response.getOkResponse(ResponseConstant.TOKEN_GENERATED_SUCCESSFULLY));
         return tokenResponse;
     }
 
-    @RequestMapping(name = "getIdFromToken", value = "/{id}", method = RequestMethod.GET)
-
+    @GetMapping(name = "getIdFromToken", value = "/id/token")
     @Access(levels = Role.ANONYMOUS)
-
     public TokenResponse<String> getIdFromToken(@RequestParam String token) {
-
         TokenResponse<String> tokenResponse = new TokenResponse<>();
-
         tokenResponse.setData(userService.getIdFromToken(token));
-
         tokenResponse.setStatus(Response.getOkResponse(ResponseConstant.OK));
-
         tokenResponse.setToken(token);
-
         return tokenResponse;
     }
 
-    @RequestMapping(name = "getExpirationDateFromToken", value = "/expirationDate/token", method = RequestMethod.POST)
 
+    @GetMapping(name = "getExpirationDateFromToken", value = "/expirationDate/token")
     @Access(levels = Role.ANONYMOUS)
-
     public TokenResponse<Date> getExpirationDateFromToken(@RequestParam String token) {
-
         TokenResponse<Date> tokenResponse = new TokenResponse<>();
-
         tokenResponse.setData(userService.getExpirationDateFromToken(token));
-
         tokenResponse.setStatus(Response.getOkResponse());
-
         tokenResponse.setToken(token);
-
         return tokenResponse;
     }
 
-    @RequestMapping(name = "isTokenExpired", value = "/tokenExpired", method = RequestMethod.POST)
 
+    @GetMapping(name = "isTokenExpired", value = "/tokenExpired")
     @Access(levels = Role.ANONYMOUS)
-
     public TokenResponse<Boolean> isTokenExpired(@RequestParam String token) {
-
         TokenResponse<Boolean> tokenResponse = new TokenResponse<>();
-
         tokenResponse.setData(userService.isTokenExpired(token));
-
         tokenResponse.setStatus(Response.getOkResponse());
-
         tokenResponse.setToken(token);
-
         return tokenResponse;
     }
 
-    @RequestMapping(name = "getAllUserInExcel", value = "/getAll/excel", method = RequestMethod.POST)
-
+    @GetMapping(name = "getAllUserInExcel", value = "/getAllUser/excel")
     @Access(levels = Role.ANONYMOUS)
-
     public ResponseEntity<Resource> getAllUserInExcel() {
-
         Workbook workbook = userService.getAllUserInExcel();
-
         assert workbook != null;
-
         ByteArrayResource resource = ExcelUtils.getBiteResourceFromWorkbook(workbook);
-
         return ResponseEntity.ok()
-
                 .contentLength(resource.contentLength())
-
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "user_purchased_bookDetail_xlsx" + "\"")
-
                 .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
-
                 .body(resource);
     }
 
-
-    @RequestMapping(name = "getUserDetailsByResultSpi", value = "/result/spi", method = RequestMethod.POST)
-
+    @PostMapping(name = "getUserDetailsByResultSpi", value = "/result/spi")
     @Access(levels = Role.ANONYMOUS)
-
     public ResponseEntity<Resource> getUserDetailsByResultSpi(@RequestBody FilterSortRequest<UserFilterData, UserSortBy> filterSortRequest) {
-
         UserFilterData filter = filterSortRequest.getFilter();
-
         FilterSortRequest.SortRequest<UserSortBy> sort = filterSortRequest.getSort();
-
         Pagination pagination = filterSortRequest.getPagination();
-
         PageRequest pageRequest = PageRequest.of(pagination.getPage(), pagination.getLimit());
-
         Workbook workbook = userService.getUserDetailsByResultSpi(filter, sort, pageRequest);
-
         assert workbook != null;
-
         ByteArrayResource resource = ExcelUtils.getBiteResourceFromWorkbook(workbook);
-
         return ResponseEntity.ok()
-
                 .contentLength(resource.contentLength())
-
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "userDetail_xlsx" + "\"")
-
                 .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
-
                 .body(resource);
     }
 
-
-    @RequestMapping(name = "getUserEligibilityByAge", value = "/user/age", method = RequestMethod.POST)
+    @PostMapping(name = "getUserEligibilityByAge", value = "/users/age")
     @Access(levels = Role.ANONYMOUS)
-
     public PageResponse<UserEligibilityAggregation> getUserEligibilityByAge(@RequestBody FilterSortRequest<UserFilterData, UserSortBy> filterSortRequest) throws JSONException {
-
         PageResponse<UserEligibilityAggregation> pageResponse = new PageResponse<>();
-
         pageResponse.setData(userService.getUserEligibilityByAge(filterSortRequest.getFilter(), filterSortRequest.getSort(),
-
                 generalHelper.getPagination(filterSortRequest.getPagination().getPage(), filterSortRequest.getPagination().getLimit())));
-
         pageResponse.setStatus(Response.getOkResponse());
         return pageResponse;
     }
 
+    @GetMapping(name = "userChart", value = "/chart")
     @Access(levels = {Role.ADMIN})
-    @RequestMapping(name = "userChartApi", value = "chart", method = RequestMethod.GET)
-
     public DataResponse<MonthAndYear> userChartApi(@RequestParam int year) {
-
         DataResponse<MonthAndYear> dataResponse = new DataResponse<>();
-
         dataResponse.setData(userService.userChartApi(year));
-
         dataResponse.setStatus(Response.getOkResponse());
-
         return dataResponse;
     }
-
 
 }
 

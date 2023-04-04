@@ -8,7 +8,7 @@ import java.util.List;
 @Repository
 public interface RestAPIRepository extends MongoRepository<RestAPI,String> {
 
-  List<RestAPI> findAllBy();
+    List<RestAPI> findAllBy();
 
   boolean existsByRolesInAndName( List<String> roles,String name);
 

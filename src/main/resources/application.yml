@@ -1,13 +1,15 @@
 server:
-  port: 5007
+ port: 5009
+
 spring:
   main:
     allow-circular-references: true
   data:
     mongodb:
-
-      uri: mongodb+srv://nilusroy0:gTKbIhWYQI2Vck80@cluster0.rihh4ek.mongodb.net/AuthModule?retryWrites=true&w=majority
-#      uri:  mongodb://localhost:27017/AuthModule
+     uri: mongodb+srv://nilusroy0:gTKbIhWYQI2Vck80@cluster0.rihh4ek.mongodb.net/AuthModule?retryWrites=true&w=majority
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+fcm:
+  api:
+    key: AAAAYlP8O7Q:APA91bEjpUefg7PFi3D-TuTH_jOoCGf6cVhU73MwuTMPRjBR4cYZUgDTgm15hFYKOUMUj_GMpysJfVl5Tgsm9xGkcRq2VxVP92Jgp9fuCF2NZeC13I46TCSAHJxwQom9R3DBAb_aETCj

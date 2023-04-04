@@ -30,7 +30,6 @@ import java.util.List;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
-
 public class StockCustomRepositoryImpl implements StockCustomRepository{
 
         @Autowired

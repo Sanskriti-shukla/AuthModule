@@ -1,5 +1,6 @@
 package com.example.auth.stockPile.service;
 
+import com.example.auth.stockPile.decorator.AddComment;
 import com.example.auth.stockPile.decorator.CommentAddRequest;
 import com.example.auth.stockPile.decorator.CommentResponse;
 
@@ -17,6 +18,8 @@ public interface CommentService {
 
     List<CommentResponse> getAllComment();
 
-    CommentResponse addComment(String userId, String postId, CommentAddRequest commentAddRequest);
+    CommentResponse addComment(AddComment addComment);
 
+
+    void removeComments(String id);
 }

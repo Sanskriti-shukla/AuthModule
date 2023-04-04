@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface RestAPIService {
 
-    List<RestAPI> getAllAuthAPIs();
+    List<RestAPI> getAll();
 
-    boolean hasAccess(List<String> roles, String name);
+    boolean hasAccess(List<String> roles ,String name);
+
 }
