@@ -9,6 +9,7 @@ import com.example.auth.commons.enums.PasswordEncryptionType;
 import com.example.auth.commons.enums.Role;
 import com.example.auth.commons.exception.InvalidRequestException;
 import com.example.auth.commons.exception.NotFoundException;
+import com.example.auth.commons.helper.UserHelper;
 import com.example.auth.commons.model.AdminConfiguration;
 import com.example.auth.commons.model.EmailModel;
 import com.example.auth.commons.service.AdminConfigurationService;
@@ -38,7 +39,6 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -54,8 +54,9 @@ public class CustomerServiceImpl implements CustomerService {
     private final Utils utils;
     private final NotificationRepository notificationRepository;
     private final UserDataRepository userDataRepository;
+    private final UserHelper userHelper;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository, ModelMapper modelMapper, PasswordUtils passwordUtils, JwtTokenUtil jwtTokenUtil, NullAwareBeanUtilsBean nullAwareBeanUtilsBean, AdminConfigurationService adminConfigurationService, Utils utils, NotificationRepository notificationRepository, UserDataRepository userDataRepository) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, ModelMapper modelMapper, PasswordUtils passwordUtils, JwtTokenUtil jwtTokenUtil, NullAwareBeanUtilsBean nullAwareBeanUtilsBean, AdminConfigurationService adminConfigurationService, Utils utils, NotificationRepository notificationRepository, UserDataRepository userDataRepository, UserHelper userHelper) {
         this.customerRepository = customerRepository;
         this.modelMapper = modelMapper;
         this.passwordUtils = passwordUtils;
@@ -66,6 +67,7 @@ public class CustomerServiceImpl implements CustomerService {
         this.notificationRepository = notificationRepository;
 
         this.userDataRepository = userDataRepository;
+        this.userHelper = userHelper;
     }
 
 
@@ -337,11 +339,12 @@ public class CustomerServiceImpl implements CustomerService {
         // Save the Customer and UserData objects
         userDataRepository.save(userData);
         customerRepository.save(customer);
-
-//        socialVerificationData.setSocialVerify(Collections.singletonMap(socialVerify , true));
-
-
         return  socialVerificationData;
+    }
+
+    @Override
+    public void updateCustomer(CustomerAddRequest customerAddRequest, Role role, ServiceType serviceType, String customerId) {
+
     }
 
 

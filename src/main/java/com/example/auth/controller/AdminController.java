@@ -20,7 +20,6 @@ public class AdminController {
         this.adminConfigurationService = adminConfigurationService;
     }
 
-//    @RequestMapping(name = "addConfiguration", value = "/add", method = RequestMethod.POST)
     @PostMapping(name = "addConfiguration", value = "/add")
     @Access(levels = Role.ADMIN)
     public DataResponse<AdminResponse> addConfiguration()  {
@@ -30,7 +29,7 @@ public class AdminController {
         return dataResponse;
     }
 
-//    @RequestMapping(name = "getConfigurationDetails", value = "/getDetails", method = RequestMethod.GET)
+
     @GetMapping(name = "getConfigurationDetails", value = "/getDetails")
     @Access(levels = Role.ADMIN)
     public DataResponse<AdminConfiguration> getConfigurationDetails()  {

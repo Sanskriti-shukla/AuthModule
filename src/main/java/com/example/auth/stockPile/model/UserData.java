@@ -37,9 +37,10 @@ public class UserData {
 
     boolean subscribe;
 
-//    String imageurl;
-Map<ImageUrl, String> imageUrl = new HashMap<>();
- Map<SocialVerify, Boolean> socialVerify = new HashMap<>();
+    //    String imageurl;
+    Map<ImageUrl, String> imageUrl = new HashMap<>();
+
+    Map<SocialVerify, Boolean> socialVerify = new HashMap<>();
 
     @JsonIgnore
 

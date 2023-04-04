@@ -31,7 +31,7 @@ public class CustomerController {
     }
 
 
-//    @RequestMapping(name = "addCustomer", value = "/addCustomer", method = RequestMethod.POST)
+
     @PostMapping(name = "addCustomer" , value = "/add/customer")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<CustomerResponse> addCustomer(@RequestBody CustomerAddRequest customerAddRequest, @RequestParam Role role , @RequestParam ServiceType serviceType) {
@@ -42,7 +42,19 @@ public class CustomerController {
 
     }
 
-//    @RequestMapping(name = "login", value = "/login", method = RequestMethod.POST)
+    @PostMapping(name = "updateCustomer" , value = "/update/customer")
+    @Access(levels = Role.ANONYMOUS)
+    public DataResponse<Object> addCustomer(@RequestBody CustomerAddRequest customerAddRequest, @RequestParam Role role , @RequestParam ServiceType serviceType , @RequestParam String customerId) {
+        DataResponse<Object> dataResponse = new DataResponse<>();
+        customerService.updateCustomer(customerAddRequest, role,serviceType , customerId);
+        dataResponse.setStatus(Response.getOkResponse(ResponseConstant.UPDATED_SUCCESSFULLY));
+        return dataResponse;
+
+    }
+
+
+
+
     @PostMapping(name = "login" , value = "/login")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<CustomerResponse> login(@RequestBody CustomerLoginAddRequest customerLoginAddRequest) {

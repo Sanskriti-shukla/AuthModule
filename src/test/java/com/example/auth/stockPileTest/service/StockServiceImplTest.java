@@ -29,16 +29,13 @@ import static org.mockito.Mockito.*;
     private final static String userId = "id";
     private final static Subscribe subscribe = Subscribe.SUBSCRIBE;
     private final StockRepository stockRepository = mock(StockRepository.class);
-    private final NullAwareBeanUtilsBean nullAwareBeanUtilsBean=mock(NullAwareBeanUtilsBean.class);
     private final UserHelper userHelper = mock(UserHelper.class);
     private final ModelMapper modelMapper = StockServiceImplTestGenerator.getModelMapper();
-    private final UserData userData = mock(UserData.class);
     private final UserDataServiceImpl userDataService = mock(UserDataServiceImpl.class);
     private final UserDataRepository userDataRepository = mock(UserDataRepository.class);
-    private final Subscriber subscriber = mock(Subscriber.class);
     private final SubscriberRepository subscriberRepository = mock(SubscriberRepository.class);
 
-    public StockService stockService = new StockServiceImpl(stockRepository,nullAwareBeanUtilsBean,userHelper,modelMapper,userData,userDataService,userDataRepository,subscriber,subscriberRepository);
+    public StockService stockService = new StockServiceImpl(stockRepository,userHelper,modelMapper,userDataService,userDataRepository,subscriberRepository);
 
 //    @Test
 //    void  testAddStock(){

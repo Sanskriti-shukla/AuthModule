@@ -24,7 +24,4 @@ public class CustomerAddRequest {
     String confirmPassword;
     String imageUrl;
 
-//    Map<ImageUrl, String> imageUrl = new HashMap<>();
-//    Map<ServiceType, Boolean> serviceType = new HashMap<>();
-
 }

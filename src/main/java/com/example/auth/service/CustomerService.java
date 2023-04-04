@@ -53,6 +53,8 @@ public interface CustomerService {
 
     SocialVerificationData socialVerification(SocialVerificationAddRequest socialVerificationAddRequest, SocialVerify socialVerify);
 
+    void updateCustomer(CustomerAddRequest customerAddRequest, Role role, ServiceType serviceType, String customerId);
+
 //    void sendOtp(String email, String otp);
 }
 

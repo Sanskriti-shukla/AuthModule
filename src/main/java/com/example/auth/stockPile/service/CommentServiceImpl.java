@@ -17,7 +17,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -54,10 +53,11 @@ public class CommentServiceImpl implements CommentService {
         int commentCount = post.getComments() == 0 ? 1 : post.getComments() + 1;
         post.setComments(commentCount);
         postRepository.save(post);
-        CommentResponse commentResponse = modelMapper.map(comment, CommentResponse.class);
-        return commentResponse;
+        return modelMapper.map(comment, CommentResponse.class);
+
 
     }
+
     @VisibleForTesting
     Date currentDate() {
         return new Date();
@@ -119,7 +119,6 @@ public class CommentServiceImpl implements CommentService {
             commentRepository.saveAll(comments);
         }
     }
-
 
     public Comment getById(String id) {
         return commentRepository.getByIdAndSoftDeleteIsFalse(id).orElseThrow(() -> new NotFoundException(MessageConstant.ID_NOT_FOUND));

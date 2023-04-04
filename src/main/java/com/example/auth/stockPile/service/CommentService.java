@@ -10,8 +10,6 @@ public interface CommentService {
 
     void deleteCommentById(String id);
 
-
-
     void updateComment(String id, CommentAddRequest commentAddRequest) throws NoSuchFieldException, IllegalAccessException;
 
     CommentResponse getCommentById(String id);
@@ -23,3 +21,6 @@ public interface CommentService {
 
     void removeComments(String id);
 }
+
+
+

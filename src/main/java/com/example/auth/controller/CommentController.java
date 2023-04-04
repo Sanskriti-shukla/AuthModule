@@ -24,7 +24,6 @@ public class CommentController {
     }
 
 
-//    @RequestMapping(name = "addComment", value = "/add", method = RequestMethod.POST)
     @PostMapping(name = "addComment" , value = "/add/comment")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<CommentResponse> addComment(@RequestBody AddComment addComment) {
@@ -34,7 +33,7 @@ public class CommentController {
         return dataResponse;
     }
 
-//    @RequestMapping(name = "updateComment", value = "/update/comment", method = RequestMethod.POST)
+
     @PutMapping(name = "updateComment" , value = "/update/comment")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<Object> updateComment(@RequestParam String id, @RequestBody CommentAddRequest commentAddRequest) throws NoSuchFieldException, IllegalAccessException {
@@ -44,7 +43,7 @@ public class CommentController {
         return dataResponse;
     }
 
-//    @RequestMapping(name = "getCommentById", value = "/{id}", method = RequestMethod.GET)
+
     @GetMapping(name = "getCommentById" , value = "comment/{id}")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<CommentResponse> getCommentById(@PathVariable String id) {
@@ -55,7 +54,7 @@ public class CommentController {
     }
 
 
-//    @RequestMapping(name = "getAllComment", value = "/all/comment", method = RequestMethod.GET)
+
     @GetMapping(name = "getAllComment" , value = "/all/comment")
     @Access(levels = Role.ANONYMOUS)
     public ListResponse<CommentResponse> getAllComment() {
@@ -66,7 +65,6 @@ public class CommentController {
     }
 
 
-//    @RequestMapping(name = "deleteCommentById", value = "/delete/{id}", method = RequestMethod.POST)
     @DeleteMapping(name = "deleteCommentById", value = "/delete/{id}")
     @Access(levels = Role.ANONYMOUS)
     public DataResponse<Object> deleteCommentById(@PathVariable String id) {

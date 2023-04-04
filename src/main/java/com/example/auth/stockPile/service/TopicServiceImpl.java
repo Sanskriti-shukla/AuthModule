@@ -35,10 +35,10 @@ public class TopicServiceImpl implements TopicService {
     private final UserHelper userHelper;
     private final FcmService fcmService;
     private final NotificationRepository notificationRepository;
-    private final Notification notification;
 
 
-    public TopicServiceImpl(TopicRepository topicRepository, ModelMapper modelMapper, StockServiceImpl stockService, UserDataServiceImpl userDataService, UserHelper userHelper, FcmService fcmService, NotificationRepository notificationRepository, Notification notification) {
+
+    public TopicServiceImpl(TopicRepository topicRepository, ModelMapper modelMapper, StockServiceImpl stockService, UserDataServiceImpl userDataService, UserHelper userHelper, FcmService fcmService, NotificationRepository notificationRepository) {
         this.topicRepository = topicRepository;
         this.modelMapper = modelMapper;
         this.stockService = stockService;
@@ -46,7 +46,6 @@ public class TopicServiceImpl implements TopicService {
         this.userHelper = userHelper;
         this.fcmService = fcmService;
         this.notificationRepository = notificationRepository;
-        this.notification = notification;
     }
 
     @Override
@@ -64,22 +63,15 @@ public class TopicServiceImpl implements TopicService {
         topicRepository.save(topic);
         List<String> subscribers = stock.getSubscribers();
         for (String subscriberId : subscribers) {
-            if (subscriberId.equals(userId)) {
-                // Don't send a notification to the user who created the topic
-                continue;
+            if (!subscriberId.equals(userId)) {
+                Notification notification = notificationRepository.findByUserId(subscriberId);
+                if (notification != null) {
+                    String deviceToken = notification.getDeviceToken();
+                    fcmService.sendPushNotification(new String[]{deviceToken}, "New topic created", "A new topic has been created for " + stock.getName());
+                }
             }
-            // Get the notification data for this subscriber
-            Notification notification = notificationRepository.findByUserId(subscriberId);
-            if (notification == null) {
-                // This subscriber has not enabled notifications
-                continue;
-            }
-            // Send a push notification to the subscriber
-            String deviceToken = notification.getDeviceToken();
-            fcmService.sendPushNotification(new String[]{deviceToken}, "New topic created", "A new topic has been created for " + stock.getName());
         }
         return topicResponse;
-
     }
 
     @Override
@@ -102,8 +94,8 @@ public class TopicServiceImpl implements TopicService {
             topicResponse.setCreatedBy(userData);
             list.add(topicResponse);
         });
-        Page<TopicResponse> page = new PageImpl<>(list, pagination, topicResponses.getTotalElements());
-        return page;
+        return new PageImpl<>(list, pagination, topicResponses.getTotalElements());
+
     }
 
     @Override
@@ -113,7 +105,7 @@ public class TopicServiceImpl implements TopicService {
         Date parsedCreatedOn = formatter.parse(title.getCreatedOn());
         for (Topic topic : topics) {
             if (topic.getCreatedOn().equals(parsedCreatedOn) && topic.getTitle().equals(title.getTitle())) {
-                return topic.getId().toString();
+                return topic.getId();
             }
         }
         throw new NotFoundException(MessageConstant.TOPIC_NOT_FOUND);
@@ -162,7 +154,6 @@ public class TopicServiceImpl implements TopicService {
             topic.setTitle(topicAddRequest.getTitle());
         }
     }
-
 
     public Topic topicById(String id) {
         return topicRepository.getTopicByIdAndSoftDeleteIsFalse(id).orElseThrow(() -> new NotFoundException(MessageConstant.ID_NOT_FOUND));

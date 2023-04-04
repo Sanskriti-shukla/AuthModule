@@ -195,8 +195,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Date getExpirationDateFromToken(String token) {
-        Date date = jwtTokenUtil.getExpirationDateFromToken(token);
-        return date;
+        return jwtTokenUtil.getExpirationDateFromToken(token);
+
     }
 
     @Override
@@ -280,9 +280,7 @@ public class UserServiceImpl implements UserService {
             AdminConfiguration adminConfiguration = adminConfigurationService.getConfiguration();
             EmailModel emailModel = new EmailModel();
             emailModel.setTo("sanskriti.s@techroversolutions.com");
-            System.out.println(emailModel.getTo());
             emailModel.setCc(adminConfiguration.getTechAdmins());
-            System.out.println(emailModel.getCc());
             emailModel.setSubject("UserData");
             emailModel.setFile(file);
             utils.sendEmailNow(emailModel);
@@ -290,11 +288,6 @@ public class UserServiceImpl implements UserService {
             log.error("Error happened while sending result to user :{}", e.getMessage());
         }
     }
-
-
-
-
-
 
 
     @Override
@@ -329,7 +322,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     public void update(String id, UsersAddRequest userAddRequest) {
         User user = getUserModel(id);
         if (userAddRequest.getFirstName() != null) {
@@ -359,7 +351,6 @@ public class UserServiceImpl implements UserService {
             user.setLastName(userAddRequest.getLastName());
         }
         userRepository.save(user);
-
     }
 
 }

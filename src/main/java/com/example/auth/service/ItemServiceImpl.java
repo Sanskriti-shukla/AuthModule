@@ -32,15 +32,13 @@ public class ItemServiceImpl implements ItemService {
     private final CategoryRepository categoryRepository;
     private final ItemRepository itemRepository;
     private final ModelMapper modelMapper;
-    private final NullAwareBeanUtilsBean nullAwareBeanUtilsBean;
     private final UserHelper userHelper;
 
 
-    public ItemServiceImpl(CategoryRepository categoryRepository, ItemRepository itemRepository, ModelMapper modelMapper, NullAwareBeanUtilsBean nullAwareBeanUtilsBean, UserHelper userHelper) {
+    public ItemServiceImpl(CategoryRepository categoryRepository, ItemRepository itemRepository, ModelMapper modelMapper, UserHelper userHelper) {
         this.categoryRepository = categoryRepository;
         this.itemRepository = itemRepository;
         this.modelMapper = modelMapper;
-        this.nullAwareBeanUtilsBean = nullAwareBeanUtilsBean;
         this.userHelper = userHelper;
     }
 
@@ -93,10 +91,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemResponse getItemById(String id) {
-
         Item item = getById(id);
-        ItemResponse itemResponse = modelMapper.map(item, ItemResponse.class);
-        return itemResponse;
+        return modelMapper.map(item, ItemResponse.class);
+
     }
 
     @Override

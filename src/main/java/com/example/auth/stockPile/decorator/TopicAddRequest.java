@@ -18,7 +18,6 @@ public class TopicAddRequest {
 
     String description;
 
-//    UserData createdBy;
 
 
 

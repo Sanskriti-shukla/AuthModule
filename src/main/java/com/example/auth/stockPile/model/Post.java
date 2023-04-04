@@ -26,7 +26,6 @@ public class Post {
     String templateContent;
 
     String postBy;
-//    UserData postBy;
 
     Date createdOn;
 

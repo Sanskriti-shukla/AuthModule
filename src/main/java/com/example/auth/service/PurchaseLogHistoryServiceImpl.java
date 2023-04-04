@@ -69,36 +69,22 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
     public PurchaseLogHistoryResponse addPurchaseLog(PurchaseLogHistoryAddRequest purchaseLogHistoryAddRequest, String customerId, String itemName) {
 
         PurchaseLogHistory purchaseLogHistory = modelMapper.map(purchaseLogHistoryAddRequest, PurchaseLogHistory.class);
-
         Customer customer = getcustomerById(customerId);
-
         Item item = itemRepository.findByItemNameAndSoftDeleteIsFalse(itemName);
 
         if (purchaseLogHistory.getQuantity() <= item.getQuantity()) {
-
             purchaseLogHistory.setCustomerId(customer.getId());
-
             purchaseLogHistory.setItemName(item.getItemName());
-
             purchaseLogHistory.setPrice(item.getPrice());
-
             purchaseLogHistory.setCustomerName(customer.getName());
-
             purchaseLogHistory.setDiscountInPercent(item.getDiscountInPercent());
-
             findDiscountInRupee(purchaseLogHistory, itemName);
-
-//            purchaseLogHistory.setDate(currentDate());
-
             PurchaseLogHistoryResponse purchaseLogHistoryResponse = modelMapper.map(purchaseLogHistory, PurchaseLogHistoryResponse.class);
-
             purchaseLogHistoryRepository.save(purchaseLogHistory);
-
             setItemTotalPrice(itemName, purchaseLogHistory);
-
             return purchaseLogHistoryResponse;
-
-        } else {
+        }
+        else {
             throw new InvalidRequestException(MessageConstant.ITEM_QUANITY_OUT_OF_STOCK);
         }
 
@@ -107,13 +93,9 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
     public void setItemTotalPrice(String itemName, PurchaseLogHistory purchaseLogHistory) {
 
         Item item = itemRepository.findByItemNameAndSoftDeleteIsFalse(itemName);
-
         item.setQuantity(item.getQuantity() - purchaseLogHistory.getQuantity());
-
         item.setDiscountInRupee((item.getPrice() * item.getQuantity() * item.getDiscountInPercent()) / 100);
-
         item.setTotalPrice(item.getPrice() * item.getQuantity() - item.getDiscountInRupee());
-
         itemRepository.save(item);
     }
 
@@ -126,7 +108,6 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
     public void updatePurchaseLog(PurchaseLogHistoryAddRequest purchaseLogHistoryAddRequest, String id) {
 
         PurchaseLogHistory purchaseLogHistory = getItemPurchaseLogById(id);
-
         updatePurchaseLogHistory(id, purchaseLogHistoryAddRequest);
         try {
             userHelper.difference(purchaseLogHistory, purchaseLogHistoryAddRequest);
@@ -138,12 +119,9 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
 
     @Override
     public PurchaseLogHistoryResponse getPurchaseLogById(String id) {
-
         PurchaseLogHistory purchaseLogHistory = getItemPurchaseLogById(id);
+     return  modelMapper.map(purchaseLogHistory, PurchaseLogHistoryResponse.class);
 
-        PurchaseLogHistoryResponse purchaseLogHistoryResponse = modelMapper.map(purchaseLogHistory, PurchaseLogHistoryResponse.class);
-
-        return purchaseLogHistoryResponse;
     }
 
 
@@ -152,11 +130,8 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
         List<PurchaseLogHistory> purchaseLogHistory = purchaseLogHistoryRepository.findAllBySoftDeleteFalse();
 
         List<PurchaseLogHistoryResponse> list = new ArrayList<>();
-
         purchaseLogHistory.forEach(purchaseLogHistory1 -> {
-
             PurchaseLogHistoryResponse purchaseLogHistoryResponse = modelMapper.map(purchaseLogHistory1, PurchaseLogHistoryResponse.class);
-
             list.add(purchaseLogHistoryResponse);
         });
         return list;
@@ -164,22 +139,18 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
 
 
     @Override
-    public Object deletePurchaseLogById(String id) {
+    public void deletePurchaseLogById(String id) {
 
         PurchaseLogHistory purchaseLogHistory = getItemPurchaseLogById(id);
-
         purchaseLogHistory.setSoftDelete(true);
-
         purchaseLogHistoryRepository.save(purchaseLogHistory);
 
-        return null;
     }
 
 
 
     @Override
     public Page<PurchaseLogHistoryResponse> getAllPurchaseLogByPagination(PurchaseLogFilter purchaseLogFilter, FilterSortRequest.SortRequest<PurchaseLogSortBy> sort, PageRequest pageRequest) {
-
         return purchaseLogHistoryRepository.getAllPurchaseLogByPagination(purchaseLogFilter, sort, pageRequest);
     }
 
@@ -187,13 +158,10 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
 
     @Override
     public List<PurchaseLogHistory> findById(String customerId) {
-
         List<PurchaseLogHistory> purchaseLogHistory = purchaseLogHistoryRepository.findByCustomerIdAndSoftDeleteFalse(customerId);
-
         List<PurchaseLogHistory> purchaseLogHistoryList = new ArrayList<>();
 
         for (PurchaseLogHistory logHistory : purchaseLogHistory) {
-
             logHistory.setTotal(findTotal(customerId));
         }
         return purchaseLogHistory;
@@ -204,7 +172,6 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
     public void save(MultipartFile file) {
         try {
             List<PurchaseLogHistory> purchaseLogHistoryList = ExcelHelper.excelTopurchaseLogHistoryList(file.getInputStream());
-
             purchaseLogHistoryRepository.saveAll(purchaseLogHistoryList);
 
         } catch (IOException e) {
@@ -235,19 +202,15 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
         }
 
         List<PurchaseLogHistoryByMonthInExcel> purchaseLogHistoryByMonthInExcel = new ArrayList<>();
-
         List<PurchaseLogHistoryResponse> purchaseLogHistoryByMonthInExcels = purchaseLogHistoryResponse.getContent();
 
         for (PurchaseLogHistoryResponse logHistoryResponse : purchaseLogHistoryResponse) {
-
             PurchaseLogHistoryByMonthInExcel purchaseLogHistoryByMonthInExcel1 = new PurchaseLogHistoryByMonthInExcel();
-
             try {
                 nullAwareBeanUtilsBean.copyProperties(purchaseLogHistoryByMonthInExcel1, logHistoryResponse);
             }  catch (InvocationTargetException | IllegalAccessException e) {
                 log.error("error occured when mapping model to dto : {}",e.getMessage(), e);
             }
-
             purchaseLogHistoryByMonthInExcel.add(purchaseLogHistoryByMonthInExcel1);
         }
         Workbook workbook =  ExcelUtils.createWorkbookFromData(purchaseLogHistoryByMonthInExcel, "Purchse details by month" + filter.getMonth());
@@ -261,7 +224,6 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
     public Workbook getPurchaseDetailsByCustomer(PurchaseLogFilter filter, FilterSortRequest.SortRequest<PurchaseLogSortBy> sort, PageRequest pageRequest)  {
 
         HashMap<String, List<PurchaseLogExcelGenerator>> hashMap = new LinkedHashMap<>();
-
         Page<ItemPurchaseAggregationResponse> itemPurchaseAggregationResponse = null;
         try {
             itemPurchaseAggregationResponse = purchaseLogHistoryRepository.getPurchaseDetailsByCustomer(filter, sort, pageRequest);
@@ -270,13 +232,9 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
         }
 
         List<ItemPurchaseAggregationResponse> list = itemPurchaseAggregationResponse.getContent();
-
         list.forEach(purchaseAggregationResponse -> {
-
             List<PurchaseLogExcelGenerator> purchaseLogExcelGenerators = new ArrayList<>();
-
             purchaseAggregationResponse.getItemDetail().forEach(itemDetail -> {
-
                 PurchaseLogExcelGenerator purchaseLogExcelGenerator = new PurchaseLogExcelGenerator();
                 try {
                     nullAwareBeanUtilsBean.copyProperties(purchaseLogExcelGenerator, itemDetail);
@@ -289,11 +247,8 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
         });
 
         getPurchaseHistory();
-
         Workbook workbook = ExcelUtils.createWorkbookOnBookDetailsData(hashMap, "PurchaseDetails");
-
         createFileAndSendEmail(workbook);
-
         return workbook;
     }
 
@@ -322,25 +277,17 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
     private List<PurchaseLogHistoryFilter> getDateFilters(MonthConfig monthConfig, PurchaseLogFilter filter) {
 
         List<PurchaseLogHistoryFilter> purchaseLogHistoryFilters = new ArrayList<>();
-
         DateTime dateTime = new DateTime().withMonthOfYear(filter.getMonth()).withYear(filter.getYear()).withDayOfMonth(1);
-
         purchaseLogHistoryFilters.add(getDateFilter(filter.getMonth(), filter.getYear(), false));
-
         int monthDifference = monthConfig.getGetPurchaseHistoryMonthDifference();
 
         if (monthDifference > 0) {
             for (int i = 1; i <= monthDifference; i++) {
-
                 boolean last = monthDifference == i;
-
                 DateTime updatedDateTime = dateTime.minusMonths(i);
-
                 purchaseLogHistoryFilters.add(getDateFilter(updatedDateTime.getMonthOfYear(), updatedDateTime.getYear(), last));
             }
         }
-
-
         return purchaseLogHistoryFilters;
 
     }
@@ -381,14 +328,10 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
 
     //for understanding use of template parser
     public String getPurchaseHistory() {
+
         PurchaseLogHistoryAddRequest purchaseLogHistoryAddRequest = new PurchaseLogHistoryAddRequest();
-
         TemplateParser<PurchaseLogHistoryAddRequest> templateParser = new TemplateParser<>();
-
         String url = templateParser.compileTemplate(FileLoader.loadHtmlTemplateOrReturnNull("purchaseLogHistory"), purchaseLogHistoryAddRequest);
-
-        log.info("url :{}", url);
-
         return url;
     }
 
@@ -428,7 +371,6 @@ public class PurchaseLogHistoryServiceImpl implements PurchaseLogHistoryService 
     PurchaseLogHistory getItemPurchaseLogById(String id) {
         return purchaseLogHistoryRepository.findByIdAndSoftDeleteIsFalse(id).orElseThrow(() -> new NotFoundException(MessageConstant.ID_NOT_FOUND));
     }
-
 
 }
 
